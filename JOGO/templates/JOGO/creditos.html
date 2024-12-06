@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créditos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .creditos-container {
+            position: absolute;
+            bottom: -100%;
+            width: 100%;
+            text-align: center;
+            animation: scrollCredits 30s linear forwards;
+        }
+        @keyframes scrollCredits {
+            0% {
+                bottom: -100%;
+            }
+            100% {
+                bottom: 100%;
+            }
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-top: 2rem;
+            text-transform: uppercase;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        .message-desenvolvimento {
+            font-size: 1.5rem;
+            color: #f5c71a;
+            margin-top: 3rem;
+        }
+        img {
+            margin: 10px 0;
+            max-width: 80px;
+            border-radius: 10px;
+        }
+        .voltar-menu {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="creditos-container">
+        <h1>Obrigado por jogar!</h1>
+        <div class="message-desenvolvimento">
+            Este jogo está em desenvolvimento. Novas atualizações chegarão em breve!
+        </div>
+
+        <h2>Equipe de Desenvolvimento</h2>
+        <ul>
+            <li>
+                João Silva - Desenvolvedor Backend <br>
+                <img src="imagens/joao.png" alt="Foto de João Silva">
+            </li>
+            <li>
+                Maria Oliveira - Designer e Artista <br>
+                <img src="imagens/maria.png" alt="Foto de Maria Oliveira">
+            </li>
+            <li>
+                Lucas Santos - Desenvolvedor Frontend <br>
+                <img src="imagens/lucas.png" alt="Foto de Lucas Santos">
+            </li>
+            <li>
+                Carla Lima - Roteirista <br>
+                <img src="imagens/carla.png" alt="Foto de Carla Lima">
+            </li>
+        </ul>
+
+        <h2>Agradecimentos Especiais</h2>
+        <ul>
+            <li>Nossos amigos e familiares pelo suporte</li>
+            <li>Comunidade de Desenvolvedores Open Source</li>
+            <li>Plataforma Django e todas as suas contribuições</li>
+        </ul>
+
+        <h2>Recursos e Inspirações</h2>
+        <ul>
+            <li>Sprites por FreePixel</li>
+            <li>Música de fundo por Kevin MacLeod</li>
+            <li>Histórias inspiradas em mitologia nórdica</li>
+        </ul>
+
+        <h2>Mensagem Final</h2>
+        <p>Estamos trabalhando duro para trazer o melhor conteúdo! Fique atento para novidades e atualizações.</p>
+    </div>
+    <a href="{% url 'menu' %}" class="voltar-menu">Voltar ao Menu</a>
+</body>
+</html>

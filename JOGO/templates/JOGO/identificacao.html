@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identificação - Fundação SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/identificacao.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Sistema de Identificação - Fundação SCP</h1>
+        <div class="content">
+            <!-- Formulário -->
+            <form id="identification-form" class="form-section">
+                <div class="form-group">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="id-number">Número de Identificação:</label>
+                    <input type="number" id="id-number" name="id-number" required>
+                </div>
+                <button type="submit" id="generate-button">Gerar Identificação</button>
+            </form>
+
+            <!-- Cartão de Identificação -->
+            <div id="id-card" class="id-card hidden">
+                <h2>Cartão de Identificação</h2>
+                <p><strong>Nome:</strong> <span id="card-name"></span></p>
+                <p><strong>ID:</strong> <span id="card-id"></span></p>
+                <p><strong>Departamento:</strong> <span id="card-department"></span></p>
+                <p><strong>Cargo:</strong> <span id="card-role"></span></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('identification-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const idNumber = document.getElementById('id-number').value;
+
+    // Lista de cargos e departamentos
+    const roles = ["Pesquisador", "Segurança", "Administrador", "Agente de Campo", "Técnico de Contenção"];
+    const departments = ["Pesquisa", "Segurança", "Administração", "Manutenção", "Operações Especiais"];
+
+    // Gera um cargo e departamento aleatórios
+    const randomRole = roles[Math.floor(Math.random() * roles.length)];
+    const randomDepartment = departments[Math.floor(Math.random() * departments.length)];
+
+    // Preenche o cartão com as informações
+    document.getElementById('card-name').textContent = name;
+    document.getElementById('card-id').textContent = idNumber;
+    document.getElementById('card-role').textContent = randomRole;
+    document.getElementById('card-department').textContent = randomDepartment;
+
+    // Mostra o cartão
+    const idCard = document.getElementById('id-card');
+    idCard.classList.remove('hidden');
+
+    // Desativa o botão para impedir nova geração
+    const generateButton = document.getElementById('generate-button');
+    generateButton.disabled = true;
+    generateButton.textContent = "Cartão Gerado";
+});
+
+    </script>
+</body>
+</html>

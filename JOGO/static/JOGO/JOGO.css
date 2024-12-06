@@ -1,0 +1,258 @@
+/* Estilos Gerais */
+body {
+    background-color: #1e1e2f; /* Fundo escuro para clima de aventura */
+    color: #f0e6d2; /* Texto claro para contraste */
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Título */
+h1 {
+    font-size: 3rem;
+    color: #ffd700; /* Dourado para um toque épico */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #8b7500; /* Sombra para destaque */
+}
+
+/* Texto de história */
+p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    margin-bottom: -3px;
+}
+
+/* Contêiner de opções */
+.opcoes-container {
+    display: compact;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Botões de escolha */
+.escolha-button {
+    background-color: #4a7c59; /* Verde para representar aventura */
+    color: #f0e6d2;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+
+}
+
+.escolha-button:hover {
+    background-color: #355c3d; /* Verde mais escuro no hover */
+}
+
+/* Estilo para mensagem de fim do jogo */
+.opcoes-container p {
+    font-size: 1.3rem;
+    color: #f0e6d2;
+    margin: 20px 0;
+}
+
+.imagem-historia {
+    width: 100%; /* Largura 100% da tela */
+    height: 100vh; /* Altura 100% da tela */
+    object-fit: cover; /* A imagem cobre toda a área sem distorcer */
+    position: absolute; /* Posicionamento absoluto para cobrir a tela */
+    top: 0;
+    left: 0;
+}
+
+
+
+
+
+
+/* Estilos Gerais */
+body {
+    background-color: #1e1e2f; /* Fundo escuro para clima de aventura */
+    color: #f0e6d2; /* Texto claro para contraste */
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    position: relative; /* Necessário para elementos sobrepostos */
+}
+
+/* Título */
+h1 {
+    font-size: 3rem;
+    color: #ffd700; /* Dourado para um toque épico */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #8b7500; /* Sombra para destaque */
+    z-index: 10; /* Garante que o título fique sobre a imagem */
+}
+
+/* Texto de história */
+p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    margin-bottom: -3px;
+    z-index: 10; /* Garante que o texto de história fique sobre a imagem */
+}
+
+/* Contêiner de opções */
+.opcoes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    z-index: 10; /* Garante que as opções fiquem sobre a imagem */
+}
+
+/* Botões de escolha */
+.escolha-button {
+    background-color: #4a7c59; /* Verde para representar aventura */
+    color: #f0e6d2;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    z-index: 10; /* Garante que os botões fiquem sobre a imagem */
+}
+
+.escolha-button:hover {
+    background-color: #355c3d; /* Verde mais escuro no hover */
+}
+
+/* Estilo para mensagem de fim do jogo */
+.opcoes-container p {
+    font-size: 1.3rem;
+    color: #f0e6d2;
+    margin: 20px 0;
+    z-index: 10; /* Garante que a mensagem fique sobre a imagem */
+}
+
+/* Imagem de fundo */
+.imagem-historia {
+    width: 100%; /* Largura 100% da tela */
+    height: 100vh; /* Altura 100% da tela */
+    object-fit: cover; /* A imagem cobre toda a área sem distorcer */
+    position: absolute; /* Posicionamento absoluto para cobrir a tela */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Coloca a imagem abaixo dos outros elementos */
+}
+
+
+
+/* Estilos Gerais */
+body {
+    background-color: #1e1e2f; /* Fundo escuro para clima de aventura */
+    color: #f0e6d2; /* Texto claro para contraste */
+    font-family: 'Georgia', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    position: relative; /* Necessário para elementos sobrepostos */
+}
+
+/* Título */
+h1 {
+    font-size: 3rem;
+    color: #ffd700; /* Dourado para um toque épico */
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #8b7500; /* Sombra para destaque */
+    z-index: 10; /* Garante que o título fique sobre a imagem */
+}
+
+/* Texto de história */
+p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+    width: 80%;
+    max-width: 800px;
+    margin-bottom: 30px; /* Adiciona espaço após o texto */
+    z-index: 10; /* Garante que o texto de história fique sobre a imagem */
+    background: rgba(0, 0, 0, 0.6); /* Fundo semitransparente para dar contraste */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Contêiner de opções */
+.opcoes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    z-index: 10; /* Garante que as opções fiquem sobre a imagem */
+    margin-top: 20px; /* Adiciona um espaço entre as opções e o texto */
+}
+
+/* Botões de escolha */
+.escolha-button {
+    background-color: #4a7c59; /* Verde para representar aventura */
+    color: #f0e6d2;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    z-index: 10; /* Garante que os botões fiquem sobre a imagem */
+}
+
+.escolha-button:hover {
+    background-color: #355c3d; /* Verde mais escuro no hover */
+}
+
+/* Estilo para mensagem de fim do jogo */
+.opcoes-container p {
+    font-size: 1.3rem;
+    color: #f0e6d2;
+    margin: 20px 0;
+    z-index: 10; /* Garante que a mensagem fique sobre a imagem */
+    background: rgba(0, 0, 0, 0.6); /* Fundo semitransparente para o texto */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Imagem de fundo */
+.imagem-historia {
+    width: 100%; /* Largura 100% da tela */
+    height: 100vh; /* Altura 100% da tela */
+    object-fit: cover; /* A imagem cobre toda a área sem distorcer */
+    position: absolute; /* Posicionamento absoluto para cobrir a tela */
+    top: 0;
+    left: 0;
+    z-index: 1; /* Coloca a imagem abaixo dos outros elementos */
+}
+
+/* Gradiente de fundo */
+body::before {
+    content: ''; /* Cria o pseudo-elemento */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)); /* Gradiente do topo para a transparência */
+    z-index: 2; /* Garante que o gradiente fique entre a imagem e os textos */
+}

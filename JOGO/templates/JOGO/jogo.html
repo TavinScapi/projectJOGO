@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Aventura</title>
+    <link rel="stylesheet" href="{% static 'JOGO/JOGO.css' %}">
+    <style>
+        .texto-historia {
+            white-space: pre-wrap;
+        }
+        .opcoes-container {
+            display: none; /* Esconde as escolhas inicialmente */
+        }
+        .skip-button {
+            background-color: #b53d3d; /* Vermelho para "pular" */
+            color: #f0e6d2;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+            z-index: 100;
+        }
+
+        .skip-button:hover {
+            background-color: #a52a2a; /* Tom mais escuro no hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Adicionando imagem relacionada ao contexto -->
+    {% if historia.imagem %}
+        <img src="{% static 'JOGO/'|add:historia.imagem %}" alt="Imagem da história" class="imagem-historia">
+    {% endif %}
+
+    <!-- Área onde o texto da história será exibido com efeito de digitação -->
+    <p id="textoHistoria" class="texto-historia"></p>
+
+    <div id="opcoesContainer" class="opcoes-container">
+        {% if historia.escolhas %}
+            {% for escolha in historia.escolhas %}
+                <a href="{% url 'JOGO' escolha.proximo %}" class="escolha-button">{{ escolha.texto }}</a>
+            {% endfor %}
+        {% else %}
+            <p>Fim da aventura. Obrigado por jogar!</p>
+            <a href="{% url 'JOGO' 'inicio' %}" class="escolha-button">Reiniciar Jogo</a>
+        {% endif %}
+    </div>
+
+    <!-- Botão de "Skip" -->
+    <button id="skipButton" class="skip-button">Pular</button>
+
+    <script>
+        const textoHistoria = `{{ historia.texto|escapejs }}`;
+        const elementoTexto = document.getElementById("textoHistoria");
+        const opcoesContainer = document.getElementById("opcoesContainer");
+        const skipButton = document.getElementById("skipButton");
+
+        let index = 0;
+        let typingInterval;
+
+        // Função para exibir o texto letra por letra
+        function escreverTexto() {
+            if (index < textoHistoria.length) {
+                elementoTexto.innerHTML += textoHistoria.charAt(index);
+                index++;
+                typingInterval = setTimeout(escreverTexto, 50);
+            } else {
+                // Exibe as escolhas após o texto terminar de ser digitado
+                opcoesContainer.style.display = "block";
+            }
+        }
+
+        // Função para pular o efeito de digitação e mostrar o texto completo
+        function skipTexto() {
+            clearTimeout(typingInterval); // Cancela o intervalo de digitação
+            elementoTexto.innerHTML = textoHistoria; // Mostra o texto completo
+            opcoesContainer.style.display = "block"; // Exibe as opções
+            skipButton.style.display = "none"; // Esconde o botão "Pular"
+        }
+
+        // Iniciar o efeito ao carregar a página
+        window.onload = escreverTexto;
+
+        // Adiciona o evento de click no botão "Pular"
+        skipButton.addEventListener('click', skipTexto);
+    </script>
+</body>
+</html>
+

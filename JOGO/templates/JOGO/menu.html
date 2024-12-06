@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Fundação SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/menu.css' %}">
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="menu-container">
+    <h1 class="title">SISTEMA DE MONITORAMENTO SCP</h1>
+    <p id="welcome-message"></p>
+    <div class="divider"></div>
+    <p class="system-info">
+        <span>Sistema: <span class="highlight">ONLINE</span></span><br>
+        <span>Versão: <span class="highlight">1.4.7-BETA</span></span><br>
+        <span>Servidor: <span class="highlight">Operacional</span></span>
+    </p>
+    <p class="status-indicator">Status do Sistema: <span id="status" class="highlight">Normal</span></p>
+    <ul class="menu-options" id="menu-options">
+        <li class="menu-item active">
+            <span class="menu-arrow">▶</span>
+            <a href="{% url 'identificacao' %}">Iniciar Operação</a>
+        </li>
+        <li class="menu-item">
+            <span class="menu-arrow">▶</span>
+            <a href="{% url 'carregar_jogo' %}">Carregar Dados</a>
+        </li>
+        <li class="menu-item">
+            <span class="menu-arrow">▶</span>
+            <a href="{% url 'configuracoes' %}">Configurações</a>
+        </li>
+        <li class="menu-item">
+            <span class="menu-arrow">▶</span>
+            <a href="#" id="sair-button">Encerrar Sessão</a>
+        </li>
+    </ul>
+
+    <div class="system-logs">
+        <p>Logs do Sistema:</p>
+        <div id="logs">
+            <p>[LOG-001] Inicializando...</p>
+        </div>
+    </div>
+</div>
+<div class="terminal-prompt">
+    <span class="prompt-symbol">&gt;</span>
+    <span class="cursor"></span>
+</div>
+<footer>
+
+</footer>
+<script>
+    const initializationLogs = [
+        "[LOG-001] Inicializando sistema...",
+        "[LOG-002] Carregando módulos de segurança...",
+        "[LOG-003] Estabelecendo conexão com o banco de dados...",
+        "[LOG-004] Sistema online. Status: Normal.",
+    ];
+
+    function showInitializationLogs() {
+        const logsContainer = document.getElementById('logs');
+        initializationLogs.forEach((log, index) => {
+            setTimeout(() => {
+                const logElement = document.createElement('p');
+                logElement.textContent = log;
+                logsContainer.appendChild(logElement);
+
+                if (logsContainer.childNodes.length > 5) {
+                    logsContainer.removeChild(logsContainer.firstChild);
+                }
+            }, index * 1000);
+        });
+    }
+
+    showInitializationLogs();
+
+    const message = "Bem-vindo ao Sistema de Monitoramento SCP - Fundação em Nível Máximo de Segurança.";
+    let index = 0;
+
+    function typeMessage() {
+        if (index < message.length) {
+            document.getElementById('welcome-message').textContent += message[index];
+            index++;
+            setTimeout(typeMessage, 50);
+        }
+    }
+
+    typeMessage();
+
+    const logs = [
+        "[LOG-002] Conexão estabelecida com Banco de Dados SCP.",
+        "[LOG-003] Verificando integridade do sistema...",
+        "[LOG-004] ALERTA: SCP-173 MOVIMENTO DETECTADO.",
+        "[LOG-005] Atualização de Contenção: SCP-███ não localizado.",
+        "[LOG-006] Status: Pronto para Operação."
+    ];
+
+    function updateLogs() {
+        const logsContainer = document.getElementById('logs');
+        const log = document.createElement('p');
+        log.textContent = logs[Math.floor(Math.random() * logs.length)];
+        logsContainer.appendChild(log);
+
+        if (logsContainer.childNodes.length > 5) {
+            logsContainer.removeChild(logsContainer.firstChild);
+        }
+    }
+
+    setInterval(updateLogs, 3000);
+</script>
+<script>
+    const menuItems = document.querySelectorAll('.menu-item');
+    let currentIndex = 0; // Inicialmente, o item ativo é o primeiro
+
+    // Função para atualizar a classe 'active' do item do menu
+    function updateActiveItem() {
+        // Remove a classe 'active' de todos os itens
+        menuItems.forEach(item => item.classList.remove('active'));
+        // Adiciona a classe 'active' ao item atual
+        menuItems[currentIndex].classList.add('active');
+    }
+
+    // Função para selecionar a opção ativa (pressionar "Enter" ou "Espaço")
+    function selectActiveItem() {
+        const activeItem = menuItems[currentIndex];
+        const link = activeItem.querySelector('a');
+        if (link) {
+            window.location = link.href; // Simula o clique no link
+        }
+    }
+
+    // Função para lidar com o hover do mouse
+    menuItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            currentIndex = index;
+            updateActiveItem();
+        });
+    });
+
+    // Adiciona os event listeners para as teclas
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowDown') {
+            // Mover para o próximo item no menu
+            currentIndex = (currentIndex + 1) % menuItems.length;
+            updateActiveItem();
+        } else if (event.key === 'ArrowUp') {
+            // Mover para o item anterior no menu
+            currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+            updateActiveItem();
+        } else if (event.key === 'Enter' || event.key === ' ') {
+            // Selecionar o item ativo (pressionar Enter ou Espaço)
+            selectActiveItem();
+        }
+    });
+
+    // Inicializa com o primeiro item ativo
+    updateActiveItem();
+</script>
+</body>
+</html>

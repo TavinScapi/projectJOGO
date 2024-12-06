@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen Retro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/index.css' %}">
+</head>
+<body><div class="scanlines"></div>
+<div class="vignette"></div>
+    <div id="splash-container" class="splash-container">
+        <!-- Título do jogo -->
+        <div class="title">
+            Echoes of the Primordial
+        </div>
+        <!-- Barra de carregamento retro -->
+        <div id="loading-bar" class="loading-bar">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <!-- Mensagem de carregamento -->
+        <div id="loading-message" class="loading-message">
+            Carregando...
+        </div>
+        <!-- Mensagem "Aperte qualquer botão" (inicialmente escondida) -->
+        <div id="press-any-key" class="press-any-key" style="display: none;">
+            Aperte qualquer botão para continuar
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const splashContainer = document.getElementById('splash-container');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingMessage = document.getElementById('loading-message');
+            const pressAnyKey = document.getElementById('press-any-key');
+            const bars = document.querySelectorAll('.bar');
+            let currentBar = 0;
+
+            // Inicia o carregamento das barrinhas
+            function startLoading() {
+                const interval = setInterval(() => {
+                    if (currentBar < bars.length) {
+                        bars[currentBar].classList.add('active'); // Ativa a barrinha atual
+                        currentBar++;
+                    } else {
+                        clearInterval(interval); // Para quando todas estiverem ativas
+                        setTimeout(() => {
+                            finishLoading();
+                        }, 1000); // Atraso de 1s antes de mostrar "Aperte qualquer botão"
+                    }
+                }, 600); // Intervalo entre ativação de cada barrinha (600ms)
+            }
+
+            // Finaliza o carregamento e exibe "Aperte qualquer botão"
+            function finishLoading() {
+                loadingBar.style.display = 'none'; // Esconde a barra de carregamento
+                loadingMessage.style.display = 'none'; // Esconde a mensagem de carregamento
+                pressAnyKey.style.display = 'block'; // Mostra "Aperte qualquer botão"
+                document.addEventListener('keydown', goToMenu); // Escuta teclas
+                document.addEventListener('click', goToMenu); // Escuta cliques
+            }
+
+function goToMenu() {
+    const splashContainer = document.getElementById('splash-container');
+    splashContainer.classList.add('fade-out'); // Adiciona classe de fade-out
+    setTimeout(() => {
+        window.location.href = "{% url 'menu' %}"; // Redireciona após a transição
+    }, 1000); // Aguarda o término do fade-out
+}
+
+            // Inicializa a tela cheia e o carregamento
+            startLoading();
+        });
+    </script>
+</body>
+</html>
