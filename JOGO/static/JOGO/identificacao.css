@@ -1,125 +1,261 @@
 body {
-    font-family: 'Press Start 2P', cursive;
-    background-color: #121212;
-    color: #ffffff;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
     height: 100vh;
     margin: 0;
+    background: linear-gradient(to bottom, #001a00, rgba(0, 0, 0, 0.88));
+    color: #00ff00;
+    font-family: 'VT323', 'Courier New', monospace;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    overflow: hidden;
 }
 
-.container {
-    text-align: center;
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 10px;
-    width: 800px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
-}
-
-.title {
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-}
-
-.content {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.form-section {
-    width: 45%;
+.menu-container {
     text-align: left;
+    max-width: 100%;
+    margin-top: 10px;
+    animation: flicker 2s infinite;
+    overflow-y: auto;
+    max-height: 90vh;
+    padding-left: 18px;
+    padding-right: 90px;
 }
 
-.form-group {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #2c2c2c;
-    color: #fff;
-    font-size: 0.8rem;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    background-color: #444;
-    color: #fff;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    cursor: pointer;
+.menu-container h1 {
+    font-size: 2rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
     text-transform: uppercase;
 }
 
-button:hover {
-    background-color: #555;
-}
-
-.id-card {
-    width: 45%;
+.menu-options {
+    list-style-type: none;
+    padding: 0;
     margin-left: 20px;
-    background-color: #2e2e2e;
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid #444;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
 }
 
-.id-card h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+.menu-item {
+    margin: 10px 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
-.hidden {
-    display: none;
+.menu-item a {
+    text-decoration: none;
+    color: inherit;
 }
-input {
+
+.menu-item .menu-arrow {
+    margin-right: 10px;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s;
+}
+
+.menu-item:hover .menu-arrow,
+.menu-item.active .menu-arrow {
+    visibility: visible;
+    opacity: 1;
+}
+
+.menu-item:hover {
+    color: #00ff80;
+}
+
+.menu-item.active {
+    color: #00ff80;
+    text-shadow: 0 0 5px #00ff80, 0 0 10px #00ff80;
+}
+
+.system-logs {
+    margin-top: 20px;
+    text-align: left;
+    font-size: 0.8rem;
+    max-height: 30vh;
+    overflow-y: auto;
+    padding-left: 18px;
+}
+
+.system-logs p {
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 8px;
+    }
+    .menu-container h1 {
+        font-size: 1.2rem;
+    }
+    .menu-item {
+        font-size: 0.9rem;
+    }
+}
+
+.terminal-prompt {
+    font-family: 'Courier New', monospace;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.prompt-symbol {
+    margin-right: 5px;
+}
+
+.cursor {
+    width: 10px;
+    height: 20px;
+    background-color: #00ff00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        rgba(0, 26, 0, 0.48) 2px,
+        transparent 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+    animation: flicker 0.15s infinite;
+    mix-blend-mode: overlay;
+}
+
+.vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes flicker {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.input-label {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: block;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+.input-field {
     width: 100%;
     padding: 10px;
-    border: none;
+    margin-bottom: 20px;
+    background: transparent;
+    color: #00ff00;
+    border: 1px solid #00ff00;
     border-radius: 5px;
-    background-color: #2c2c2c;
-    color: #fff;
-    font-size: 0.8rem;
-    font-family: 'Press Start 2P', cursive; /* Fonte aplicada */
-    box-sizing: border-box;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    box-shadow: 0 0 10px #00ff00;
+    outline: none;
 }
 
-input::placeholder {
-    color: #aaa; /* Para placeholder, opcional */
-    font-family: 'Press Start 2P', cursive; /* Fonte do placeholder também */
+.input-field:focus {
+    box-shadow: 0 0 15px #00ff80;
 }
 
-button {
+.submit-button {
+    display: block;
     width: 100%;
-    padding: 12px;
-    border: none;
-    background-color: #444;
-    color: #fff;
-    font-size: 0.9rem;
-    font-family: 'Press Start 2P', cursive; /* Fonte aplicada ao botão */
+    padding: 10px;
+    background: #001a00;
+    color: #00ff80;
+    border: 1px solid #00ff80;
     border-radius: 5px;
-    cursor: pointer;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
     text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    text-shadow: 0 0 10px #00ff80, 0 0 20px #00ff80;
 }
 
-button:hover {
-    background-color: #555;
+.submit-button:hover {
+    transform: scale(1.05);
+    background: #003300;
+    text-shadow: 0 0 15px #00ff80, 0 0 30px #00ff80;
+}
+
+.access-card {
+    background-color: rgba(0, 26, 0, 0.9);
+    color: #00ff00;
+    border: 1px solid #00ff80;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    max-width: 300px;
+    box-shadow: 0 0 15px #00ff80;
+    font-family: 'VT323', monospace;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+}
+
+.access-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.access-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.access-card {
+    border: 1px solid #000;
+    padding: 20px;
+    width: 300px;
+    background-color: #fff;
+    color: #000;
+    font-family: 'VT323', monospace;
+    text-align: center;
+}
+
+.card-header {
+    margin-bottom: 15px;
+}
+
+.company-logo {
+    width: 50px;
+    height: auto;
+}
+
+svg {
+    margin-top: 10px;
 }

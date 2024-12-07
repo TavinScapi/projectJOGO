@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de Câmeras - Fundação SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/cameras.css' %}">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="camera-monitor-container">
+        <h1 class="title">Monitoramento de Câmeras - Fundação SCP</h1>
+        <div class="camera-grid">
+            <!-- Tela 1 -->
+            <div class="camera-screen">
+                <h2>Câmera 1</h2>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/im31KrG-64I?autoplay=1&loop=1&playlist=im31KrG-64I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- Tela 2 -->
+            <div class="camera-screen">
+                <h2>Câmera 2</h2>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/im31KrG-64I?autoplay=1&loop=1&playlist=im31KrG-64I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- Tela 3 -->
+            <div class="camera-screen">
+                <h2>Câmera 3</h2>
+                <video width="100%" height="100%" autoplay loop muted>
+                    <source src="{% static 'videos/scp-049.mp4' %}" type="video/mp4">
+                    Seu navegador não suporta o formato de vídeo.
+                </video>
+            </div>
+
+            <!-- Tela 4 -->
+            <div class="camera-screen no-signal">
+                <h2>Câmera 4 - Sem Sinal</h2>
+                <div class="no-signal-message">
+                    <p>Sem Sinal</p>
+                </div>
+                <div class="static-effect"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -9,8 +9,8 @@ def intro(request):
     return render(request, 'JOGO/index.html')
 def menu(request):
     return render(request, 'JOGO/menu.html')
-def carregar_jogo(request):
-    return render(request, 'JOGO/index.html')
+def cameras(request):
+    return render(request, 'JOGO/cameras.html')
 def configuracoes(request):
     return render(request, 'JOGO/index.html')
 def sair(request):

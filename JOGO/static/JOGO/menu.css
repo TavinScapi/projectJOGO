@@ -19,6 +19,8 @@ body {
     animation: flicker 2s infinite;
     overflow-y: auto; /* Permite rolagem interna se necessário */
     max-height: 90vh; /* Limita o tamanho para 90% da altura da tela */
+    padding-left: 18px;
+    padding-right: 90px;
 }
 
 .menu-container h1 {
@@ -26,6 +28,7 @@ body {
     margin-top: 10px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    
 }
 
 .menu-options {
@@ -54,11 +57,11 @@ body {
 
 .system-logs {
     margin-top: 20px;
-    margin-left: 20px;
     text-align: left;
     font-size: 0.8rem;
     max-height: 30vh; /* Limita a altura dos logs para não ocupar muito espaço */
     overflow-y: auto; /* Permite rolagem dentro dos logs se necessário */
+    padding-left: 18px;
 }
 
 .system-logs p {
