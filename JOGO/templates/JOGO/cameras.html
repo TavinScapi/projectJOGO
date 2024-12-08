@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -8,42 +9,160 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'JOGO/cameras.css' %}">
 </head>
+
 <body>
     <div class="scanlines"></div>
     <div class="vignette"></div>
     <div class="camera-monitor-container">
         <h1 class="title">Monitoramento de Câmeras - Fundação SCP</h1>
         <div class="camera-grid">
-            <!-- Tela 1 -->
-            <div class="camera-screen">
-                <h2>Câmera 1</h2>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/im31KrG-64I?autoplay=1&loop=1&playlist=im31KrG-64I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
 
-            <!-- Tela 2 -->
+            <!-- Câmera 1 -->
             <div class="camera-screen">
-                <h2>Câmera 2</h2>
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/im31KrG-64I?autoplay=1&loop=1&playlist=im31KrG-64I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-
-            <!-- Tela 3 -->
-            <div class="camera-screen">
-                <h2>Câmera 3</h2>
-                <video width="100%" height="100%" autoplay loop muted>
-                    <source src="{% static 'videos/scp-049.mp4' %}" type="video/mp4">
+                <div class="camera-overlay-top">
+                    <span id="camera1-time"></span>
+                </div>
+                <video autoplay loop muted>
+                    <source src="{% static 'JOGO/images/SCP1.mp4' %}" type="video/mp4">
                     Seu navegador não suporta o formato de vídeo.
                 </video>
+                <div class="camera-overlay-bottom-left">
+                    Nível Alfa - Observação da Superfície
+                </div>
+                <div class="camera-footer">
+                    Câmera 1
+                </div>
             </div>
 
-            <!-- Tela 4 -->
+            <!-- Câmera 2 -->
+            <div class="camera-screen">
+                <div class="camera-overlay-top">
+                    <span id="camera2-time"></span>
+                </div>
+                <video autoplay loop muted>
+                    <source src="{% static 'JOGO/images/SCP2.mp4' %}" type="video/mp4">
+                    Seu navegador não suporta o formato de vídeo.
+                </video>
+                <div class="camera-overlay-bottom-left">
+                    Nível Ômega - Zona Abissal
+                </div>
+                <div class="camera-footer">
+                    Câmera 2
+                </div>
+            </div>
+
+            <!-- Câmera 3 -->
+            <div class="camera-screen">
+                <div class="camera-overlay-top">
+                    <span id="camera3-time"></span>
+                </div>
+                <video autoplay loop muted>
+                    <source src="{% static 'JOGO/images/SCP3.mp4' %}" type="video/mp4">
+                    Seu navegador não suporta o formato de vídeo.
+                </video>
+                <div class="camera-overlay-bottom-left">
+                    Nível Beta - Estação de Monitoração Remota
+                </div>
+                <div class="camera-footer">
+                    Câmera 3
+                </div>
+            </div>
+
+            <!-- Câmera 4 (Sem Sinal) -->
             <div class="camera-screen no-signal">
-                <h2>Câmera 4 - Sem Sinal</h2>
+                <div class="camera-overlay-top">
+                    <span id="camera4-time">Sem Sinal</span>
+                </div>
                 <div class="no-signal-message">
                     <p>Sem Sinal</p>
                 </div>
-                <div class="static-effect"></div>
+                <div class="camera-overlay-bottom-left">
+                    Setor D
+                </div>
+                <div class="camera-footer">
+                    Câmera 4
+                </div>
             </div>
-        </div>
-    </div>
+
+            <!-- Câmera 5 -->
+            <div class="camera-screen">
+                <div class="camera-overlay-top">
+                    <span id="camera5-time"></span>
+                </div>
+                <video autoplay loop muted>
+                    <source src="{% static 'JOGO/images/SCP5.mp4' %}" type="video/mp4">
+                    Seu navegador não suporta o formato de vídeo.
+                </video>
+                <div class="camera-overlay-bottom-left">
+                    Nível Delta - Periferia Costeira
+                </div>
+                <div class="camera-footer">
+                    Câmera 5
+                </div>
+            </div>
+
+            <!-- Câmera 6 -->
+            <div class="camera-screen">
+                <div class="camera-overlay-top">
+                    <span id="camera6-time"></span>
+                </div>
+                <video id="camera6-video" autoplay muted>
+                    <source src="{% static 'JOGO/images/SCP6.mp4' %}" type="video/mp4">
+                    Seu navegador não suporta o formato de vídeo.
+                </video>
+                <div class="camera-overlay-bottom-left">
+                    Nível Zeta - Expedição Subaquática Remota
+                </div>
+                <div class="camera-footer">
+                    Câmera 6
+                </div>
+                <div id="camera6-status" class="no-signal-message" style="display: none;">
+                    <p>Transmissão Encerrada</p>
+                </div>
+                
+            </div>
+
+            <script>
+                // Função para verificar o término do vídeo da Câmera 6
+                const camera6Video = document.getElementById('camera6-video');
+                const camera6Status = document.getElementById('camera6-status');
+
+                camera6Video.addEventListener('ended', function () {
+                    camera6Status.style.display = 'block'; // Exibe a mensagem de "Transmissão Encerrada"
+                });
+
+                // Mantém a atualização da hora das outras câmeras
+                function updateTime() {
+                    const options = {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit'
+                    };
+                    const now = new Date();
+
+                    document.getElementById('camera1-time').textContent = now.toLocaleString('pt-BR', options);
+                    document.getElementById('camera2-time').textContent = now.toLocaleString('pt-BR', options);
+                    document.getElementById('camera3-time').textContent = now.toLocaleString('pt-BR', options);
+                    document.getElementById('camera5-time').textContent = now.toLocaleString('pt-BR', options);
+                    document.getElementById('camera6-time').textContent = now.toLocaleString('pt-BR', options);
+                }
+
+                // Atualiza a cada segundo
+                setInterval(updateTime, 1000);
+
+                // Inicializa a data/hora ao carregar a página
+                updateTime();
+
+                // Adiciona a funcionalidade de "Voltar" ao pressionar ESC
+                window.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        window.history.back();  // Volta para a página anterior
+                    }
+                });
+            </script>
 </body>
+
 </html>
