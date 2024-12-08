@@ -24,6 +24,10 @@
             </div>
         </div>
     </div>
+    <div id="loading-screen" class="loading-screen">
+        <p>Carregando...</p>
+    </div>
+
     <script>
         const video = document.getElementById("cutscene-video");
         const skipControls = document.getElementById("skip-controls");
@@ -91,6 +95,13 @@
                 resetHideMessageTimeout(); // Reinicia o temporizador de ocultação
             }
         });
+
+        const loadingScreen = document.getElementById("loading-screen");
+
+        video.addEventListener("canplay", function () {
+            loadingScreen.style.display = "none"; // Ocultar a tela de carregamento
+        });
+
     </script>
 </body>
 
