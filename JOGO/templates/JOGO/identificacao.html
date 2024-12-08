@@ -34,7 +34,7 @@
             <p><strong>Cargo:</strong> <span id="card-role"></span></p>
             <svg id="barcode"></svg> <!-- Código de barras gerado aqui -->
         </div>
-        <form id="login-form" method="POST" action="{% url 'JOGO' parte='inicio' %}" style="display: none;">
+        <form id="login-form" method="POST" action="{% url 'cutscene' %}" style="display: none;">
             {% csrf_token %}
             <br>
             <button type="submit" class="submit-button">Entrar</button>

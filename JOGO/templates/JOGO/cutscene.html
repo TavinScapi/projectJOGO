@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cutscene - Fundação SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/cutscene.css' %}">
+</head>
+
+<body>
+    <div id="cutscene-container" class="cutscene-container">
+        <video id="cutscene-video" class="cutscene-video" autoplay preload="auto">
+            <source src="{% static 'JOGO/images/CUTSCENE.mp4' %}" type="video/mp4">
+            Seu navegador não suporta reprodução de vídeo.
+        </video>
+
+        <div id="skip-controls" class="skip-controls" style="display: none;">
+            <p id="skip-message" class="skip-message">Segure <span>[ESPAÇO]</span> para pular</p>
+            <div id="progress-bar" class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const video = document.getElementById("cutscene-video");
+        const skipControls = document.getElementById("skip-controls");
+        const progress = document.getElementById("progress");
+        const container = document.getElementById("cutscene-container");
+
+        let holdTimer;
+        let holdDuration = 0;
+        const holdTimeRequired = 5000; // 5 segundos em milissegundos
+        let hideMessageTimeout;
+
+        // Função para exibir os controles de pular
+        function showSkipControls() {
+            skipControls.style.display = "block";
+            resetHideMessageTimeout();
+        }
+
+        // Função para ocultar os controles de pular
+        function hideSkipControls() {
+            skipControls.style.display = "none";
+            progress.style.width = "0%";
+        }
+
+        // Resetar temporizador de ocultação
+        function resetHideMessageTimeout() {
+            clearTimeout(hideMessageTimeout);
+            hideMessageTimeout = setTimeout(hideSkipControls, 3000); // Ocultar após 3 segundos
+        }
+
+        // Redirecionar ao término do vídeo
+        video.addEventListener("ended", function () {
+            window.location.href = "{% url 'JOGO' parte='inicio' %}";
+        });
+
+        // Mostrar controles de pular ao clicar
+        container.addEventListener("click", showSkipControls);
+
+        // Iniciar temporizador ao pressionar a tecla
+        document.addEventListener("keydown", function (event) {
+            if (event.code === "Space") {
+                showSkipControls(); // Garante que controles estão visíveis durante interação
+                if (!holdTimer) {
+                    holdTimer = setInterval(() => {
+                        holdDuration += 100; // Incrementa em 100ms
+                        const progressPercent = (holdDuration / holdTimeRequired) * 100;
+                        progress.style.width = `${progressPercent}%`;
+
+                        if (holdDuration >= holdTimeRequired) {
+                            clearInterval(holdTimer);
+                            holdTimer = null;
+                            window.location.href = "{% url 'JOGO' parte='inicio' %}"; // Redireciona ao cumprir o tempo
+                        }
+                    }, 100);
+                }
+            }
+        });
+
+        // Resetar temporizador ao soltar a tecla
+        document.addEventListener("keyup", function (event) {
+            if (event.code === "Space") {
+                clearInterval(holdTimer);
+                holdTimer = null;
+                holdDuration = 0;
+                progress.style.width = "0%";
+                resetHideMessageTimeout(); // Reinicia o temporizador de ocultação
+            }
+        });
+    </script>
+</body>
+
+</html>

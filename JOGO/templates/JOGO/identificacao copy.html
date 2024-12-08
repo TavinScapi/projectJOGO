@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identificação - Fundação SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/identificacao.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="menu-container">
+        <h1 class="title">IDENTIFICAÇÃO DE USUÁRIO</h1>
+        <p id="welcome-message">Insira seu nome e senha para gerar o cartão de acesso.</p>
+        <form id="generate-card-form" method="POST">
+            {% csrf_token %}
+            <label for="username" class="input-label">Nome:</label>
+            <input type="text" id="username" name="username" class="input-field" required autocomplete="off">
+            <label for="password" class="input-label">Senha:</label>
+            <input type="password" id="password" name="password" class="input-field" required autocomplete="off">
+            <button type="button" id="generate-card-button" class="submit-button">Gerar Cartão de Acesso</button>
+        </form>
+        <div id="access-card" class="access-card" style="display: none;">
+            <div class="card-header">
+                <img src="{% static 'JOGO/images/SCP.png' %}" alt="Logo da Empresa" class="company-logo">
+            </div>
+            <h2>Cartão de Acesso</h2>
+            <p><strong>Nome:</strong> <span id="card-name"></span></p>
+            <p><strong>ID:</strong> <span id="card-id"></span></p>
+            <p><strong>Departamento:</strong> <span id="card-department"></span></p>
+            <p><strong>Cargo:</strong> <span id="card-role"></span></p>
+            <svg id="barcode"></svg> <!-- Código de barras gerado aqui -->
+        </div>
+        <form id="login-form" method="POST" action="{% url 'JOGO' parte='inicio' %}" style="display: none;">
+            {% csrf_token %}
+            <br>
+            <button type="submit" class="submit-button">Entrar</button>
+        </form>
+        <div class="system-logs">
+            <p>Logs do Sistema:</p>
+            <div id="logs">
+                <p>[LOG-001] Aguardando autenticação...</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const departments = ["Pesquisa e Desenvolvimento", "Segurança", "Contenção", "Administração", "Tecnologia da Informação"];
+        const roles = ["Pesquisador Júnior", "Agente de Segurança", "Administrador", "Especialista em Contenção", "Analista de TI"];
+
+        function generateRandomID() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+
+        document.getElementById("generate-card-button").addEventListener("click", function () {
+            const usernameInput = document.getElementById("username").value;
+            const passwordInput = document.getElementById("password").value;
+
+            if (!usernameInput || !passwordInput) {
+                const logsContainer = document.getElementById('logs');
+                const log = document.createElement('p');
+                log.textContent = "[LOG-002] Erro: Nome e/ou senha não fornecidos. Tente novamente.";
+                logsContainer.appendChild(log);
+                if (logsContainer.childNodes.length > 5) {
+                    logsContainer.removeChild(logsContainer.firstChild);
+                }
+                return;
+            }
+
+            const cardName = usernameInput;
+            const cardID = generateRandomID();
+            const cardDepartment = departments[Math.floor(Math.random() * departments.length)];
+            const cardRole = roles[Math.floor(Math.random() * roles.length)];
+
+            document.getElementById("card-name").textContent = cardName;
+            document.getElementById("card-id").textContent = cardID;
+            document.getElementById("card-department").textContent = cardDepartment;
+            document.getElementById("card-role").textContent = cardRole;
+
+            // Gerando código de barras
+            JsBarcode("#barcode", cardID.toString(), {
+                format: "CODE128",
+                lineColor: "#000",
+                width: 2,
+                height: 40,
+                displayValue: false
+            });
+
+            document.getElementById("access-card").style.display = "block";
+            document.getElementById("login-form").style.display = "block";
+            document.getElementById("generate-card-form").style.display = "none";
+
+            const logsContainer = document.getElementById('logs');
+            const log = document.createElement('p');
+            log.textContent = "[LOG-003] Cartão de acesso gerado com sucesso para o usuário " + cardName + ".";
+            logsContainer.appendChild(log);
+            if (logsContainer.childNodes.length > 5) {
+                logsContainer.removeChild(logsContainer.firstChild);
+            }
+        });
+    </script>
+</body>
+</html>

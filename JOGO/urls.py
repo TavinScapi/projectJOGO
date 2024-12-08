@@ -7,12 +7,9 @@ urlpatterns = [
     path('cameras/', views.cameras, name='cameras'),
     path('configuracoes/', views.configuracoes, name='configuracoes'),
     path('sair/', views.sair, name='sair'),
-
     path('identificacao/', views.identificacao, name='identificacao'),
     path('bestiario/', views.bestiario, name='bestiario'),
-
+    path('cutscene/', views.cutscene, name='cutscene'),
     path('JOGO/<str:parte>/', views.JOGO, name='JOGO'),
     path('creditos/', views.creditos, name='creditos'),
-
-
 ]
