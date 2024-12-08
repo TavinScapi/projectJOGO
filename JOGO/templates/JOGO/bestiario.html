@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bestiário SCP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/bestiario.css' %}">
+</head>
+
+<body>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="menu-container">
+        <h1 class="title">BESTIÁRIO SCP</h1>
+        <p id="welcome-message"></p>
+        <div class="divider"></div>
+        <ul class="menu-options" id="menu-options">
+            <!-- Lista de SCPs -->
+            <li class="menu-item" data-scp="scp-1128">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-1128</span>
+            </li>
+            <li class="menu-item" data-scp="scp-3000">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-3000</span>
+            </li>
+            <li class="menu-item" data-scp="scp-169">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-169</span>
+            </li>
+            <li class="menu-item" data-scp="scp-2316">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-2316</span>
+            </li>
+            <!-- Adicionando SCPs relacionados à água -->
+            <li class="menu-item" data-scp="scp-093">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-093</span>
+            </li>
+            <li class="menu-item" data-scp="scp-610">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-610</span>
+            </li>
+            <li class="menu-item" data-scp="scp-432">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-432</span>
+            </li>
+            <li class="menu-item" data-scp="scp-1102">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-1102</span>
+            </li>
+            <li class="menu-item" data-scp="scp-1900">
+                <span class="menu-arrow">▶</span>
+                <span>SCP-1900</span>
+            </li>
+            <li class="menu-item" data-scp="scp-???">
+                <span class="menu-arrow">▶</span>
+                <span>???</span>
+            </li>
+        </ul>
+
+    </div>
+
+    <!-- Área de exibição de detalhes em formato de livro -->
+    <div class="details-container" id="details-container">
+        <h2 class="details-title" id="details-title">Selecione um SCP</h2>
+        <div class="book">
+            <!-- Página 1 -->
+            <div class="page" id="page-1">
+                <h3>Descrição</h3>
+                <p id="details-description">Clique em um SCP na lista para ver os detalhes completos.</p>
+                <h3>Tipo e Categoria</h3>
+                <p id="details-type"></p>
+                <p id="details-category"></p>
+            </div>
+            <!-- Página 2 -->
+            <div class="page" id="page-2" style="display: none;">
+                <h3>Descrição Física</h3>
+                <p id="details-appearance">Aparência não disponível.</p>
+                <h3>Características</h3>
+                <p id="details-characteristics">Características não disponíveis.</p>
+            </div>
+            <!-- Página 3 -->
+            <div class="page" id="page-3" style="display: none;">
+                <h3>Origem</h3>
+                <p id="details-origin">Descoberta e história não disponíveis.</p>
+                <h3>Riscos</h3>
+                <p id="details-risks">Riscos não disponíveis.</p>
+            </div>
+            <!-- Página 4 -->
+            <div class="page" id="page-4" style="display: none;">
+                <h3>Protocolos de Contenção</h3>
+                <p id="details-containment">Contenção não disponível.</p>
+                <h3>Notas Adicionais</h3>
+                <p id="details-notes">Notas não disponíveis.</p>
+            </div>
+            <!-- Página 5 -->
+            <div class="page" id="page-5" style="display: none;">
+                <h3>Categoria e Artigos Relacionados</h3>
+                <ul id="details-related-articles">
+                    <li>Artigos relacionados não disponíveis.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="navigation">
+            <button id="prev-page">Anterior</button>
+            <button id="next-page">Próximo</button>
+
+        </div>
+    </div>
+
+    <div class="terminal-prompt">
+        <span class="prompt-symbol">&gt;</span>
+        <span class="cursor"></span>
+    </div>
+
+    <script>
+        const scpDetails = {
+            "scp-1128": {
+                title: "SCP-1128: A Entidade Aquática",
+                description: `SCP-1128 é uma entidade aquática descrita como um predador monstruoso que persegue pessoas submersas em corpos d'água.`,
+                type: "Criatura",
+                category: "Euclid",
+                appearance: `Um predador aquático com tentáculos longos e globo ocular fluido, olhos que brilham em azul fosforescente.`,
+                characteristics: `Movimenta-se rapidamente em águas, pode fazer vítimas afundar em questão de segundos.`,
+                origin: `Descoberto próximo a um lago isolado na região de Kakatina, onde diversas mortes inexplicáveis foram relatadas.`,
+                risks: `Perigo de afogamento, comprometimento mental de quem visualiza detalhadamente a descrição.`,
+                containment: `Mantido em uma piscina especial com camadas de antimaterial e antimeméticos, monitorado 24/7.`,
+                notes: `Pesquisadores observam padrões de movimento e afogamentos incomuns em torno do SCP.`,
+                related_articles: ["scp-999", "scp-049"]
+            },
+            "scp-3000": {
+                title: "SCP-3000: Ananta",
+                description: `SCP-3000 é uma entidade marinha de proporções colossais, conhecida como "Ananta", que se acredita possuir propriedades cognitivamente perigosas.`,
+                type: "Criatura",
+                category: "Keter",
+                appearance: `Um ser semelhante a uma serpente marinha de dimensões imensas, com escamas escuras e olhos que emitem uma luz fraca.`,
+                characteristics: `Capacidade de manipular a percepção da realidade de quem o observa, induzindo a sensação de perda de tempo e memória.`,
+                origin: `Descoberto após expedições em águas profundas do Oceano Índico, onde relatos de desaparecimentos de embarcações começaram a surgir.`,
+                risks: `Extremo perigo mental e psicológico para qualquer ser que se aproxime, possibilidade de alucinações e insanidade.`,
+                containment: `Mantido em um ambiente aquático simulado com propriedades antimeméticas e barreiras cognitivas. Monitorado com drones e sensores acústicos.`,
+                notes: `Estudos em SCP-3000 visam compreender sua conexão com os efeitos de amnésia e as implicações para os humanos.`,
+                related_articles: ["scp-049", "scp-999"]
+            },
+            "scp-169": {
+                title: "SCP-169: O Leviatã",
+                description: `SCP-169 é uma criatura de proporções titânicas, considerada uma entidade marinha de tamanho incomensurável, classificada como "Leviatã" pela Fundação.`,
+                type: "Criatura",
+                category: "Keter",
+                appearance: `A aparência é de uma serpente marinha gigantesca, com escamas enegrecidas e marcas estranhas pelo corpo.`,
+                characteristics: `Desconhece-se sua natureza real, mas sua presença provoca alterações na fauna marinha e em sua geografia.`,
+                origin: `Relatos de sua existência datam de séculos atrás, sendo encontrado em documentos antigos de marinheiros e mapas.`,
+                risks: `Risco de catástrofes ambientais e impactos na ecologia marinha. Potencial para causar tsunamis e alterar correntes oceânicas.`,
+                containment: `Impossível de conter devido ao seu tamanho e natureza. Monitorado por satélites e equipamentos de rastreamento de longo alcance.`,
+                notes: `Especialistas tentam entender se SCP-169 é uma entidade em movimento ou um organismo em repouso profundo.`,
+                related_articles: ["scp-3000", "scp-1128"]
+            },
+            "scp-2316": {
+                title: "SCP-2316: O Verão Sem Fim",
+                description: `SCP-2316 é um fenômeno climático anômalo que provoca uma mudança permanente no ambiente, resultando em um estado de verão infinito e temperaturas elevadas.`,
+                type: "Fenômeno",
+                category: "Euclid",
+                appearance: `Nenhuma forma física definida, mas é associado a mudanças atmosféricas e padrões de luz solar distorcidos.`,
+                characteristics: `A presença de SCP-2316 leva a uma constante sensação de calor extremo e evaporação de corpos d'água.`,
+                origin: `Relatado pela primeira vez em uma pequena vila costeira, onde os moradores relataram um verão que nunca terminava.`,
+                risks: `Perigo de desastres climáticos, secas prolongadas, e falta de recursos hídricos.`,
+                containment: `Monitorado por equipamentos meteorológicos avançados e com alertas de evacuação para áreas de risco.`,
+                notes: `Pesquisadores tentam estudar como SCP-2316 pode impactar os padrões climáticos globais e a vida em geral.`,
+                related_articles: ["scp-999", "scp-049"]
+            },
+            "scp-093": {
+                title: "SCP-093: O Espelho Vermelho",
+                description: `SCP-093 é uma pedra vermelha que, ao ser tocada, cria uma porta que leva a uma dimensão alternativa. Esta dimensão é frequentemente aquática, com características que desafiam as leis físicas conhecidas.`,
+                type: "Objeto",
+                category: "Euclid",
+                appearance: `Uma pedra vermelha brilhante, com uma superfície suave e propriedades que refletem imagens de forma distorcida.`,
+                characteristics: `A pedra ativa uma abertura de portal quando tocada, que leva a um mundo alternativo com água e estruturas misteriosas.`,
+                origin: `Descoberta em uma antiga escavação arqueológica em uma área costeira isolada.`,
+                risks: `Potenciais perigos incluem a exposição a realidades alternativas perigosas e a possibilidade de contaminação mental.`,
+                containment: `SCP-093 é mantido em uma sala de contenção isolada com um campo de força para evitar interação não autorizada.`,
+                notes: `Os experimentos com SCP-093 devem ser realizados com a máxima cautela devido às propriedades imprevisíveis de suas dimensões alternativas.`,
+                related_articles: ["scp-432", "scp-1900"]
+            },
+            "scp-610": {
+                title: "SCP-610: A Infecção Contagiosa",
+                description: `SCP-610 é uma infecção que se espalha rapidamente e causa mutações anômalas em organismos vivos. É altamente contagiosa e é capaz de afetar corpos d'água, transformando-os em ambientes hostis.`,
+                type: "Patógeno",
+                category: "Keter",
+                appearance: `A infecção é visível como uma substância viscosa e preta que se espalha pelo organismo infectado e se multiplica rapidamente.`,
+                characteristics: `Capacidade de infectar e modificar formas de vida em um curto período. Pode afetar ambientes aquáticos e suas criaturas.`,
+                origin: `Primeiros casos relatados em uma vila isolada na Sibéria, onde mortes e mutações em seres humanos e animais ocorreram.`,
+                risks: `Altamente perigoso devido à sua taxa de contágio e à capacidade de transformar corpos e ambientes em algo hostil.`,
+                containment: `Mantido em uma instalação de contenção de nível 4, com uma área de quarentena para prevenir sua propagação.`,
+                notes: `Os pesquisadores estão trabalhando para encontrar uma cura e entender como SCP-610 se adapta a diferentes ecossistemas.`,
+                related_articles: ["scp-093", "scp-432"]
+            },
+            "scp-432": {
+                title: "SCP-432: O Portal Subterrâneo",
+                description: `SCP-432 é uma porta metálica que leva a um espaço subterrâneo misterioso onde a água e criaturas anômalas coexistem. Este espaço parece ter um ambiente submerso de forma permanente.`,
+                type: "Objeto",
+                category: "Euclid",
+                appearance: `Uma porta de ferro envelhecido, com sinais de corrosão e marcas de uso intenso.`,
+                characteristics: `A porta abre para uma caverna submersa, onde há água e criaturas não identificadas que podem ser hostis.`,
+                origin: `Descoberto em um laboratório de engenharia subterrâneo em uma instalação de exploração abandonada.`,
+                risks: `Os intrusos podem ser atacados por criaturas aquáticas e podem se perder devido às complexas passagens e à falta de oxigênio.`,
+                containment: `A porta é mantida em uma sala de contenção protegida com um sistema de pressão de água e barreiras de contenção.`,
+                notes: `A pesquisa sobre SCP-432 continua para entender sua relação com outros SCPs e seu impacto no ambiente subterrâneo.`,
+                related_articles: ["scp-093", "scp-1102"]
+            },
+            "scp-1102": {
+                title: "SCP-1102: A Medusa Gigante",
+                description: `SCP-1102 é uma medusa de proporções colossais encontrada em uma região do oceano profundo. Suas propriedades bioluminescentes e cognitivas tornam-no um perigo para a mente humana.`,
+                type: "Criatura",
+                category: "Euclid",
+                appearance: `Uma medusa gigante com tentáculos longos e uma bioluminescência azul intensa.`,
+                characteristics: `Possui habilidades cognitivas que afetam a percepção de quem se aproxima, provocando alucinações e distúrbios mentais.`,
+                origin: `Descoberta por uma equipe de pesquisa submarina em uma expedição no Oceano Pacífico.`,
+                risks: `Contato com SCP-1102 pode levar à insanidade temporária, alucinações e perda de memória.`,
+                containment: `Mantida em um tanque com paredes de vidro reforçado e cercada por dispositivos de contenção eletromagnética.`,
+                notes: `A equipe de pesquisa ainda investiga a origem e os efeitos de SCP-1102 para melhor entender como sua bioluminescência afeta o cérebro.`,
+                related_articles: ["scp-093", "scp-432"]
+            },
+            "scp-1900": {
+                title: "SCP-1900: A Inundação Perpétua",
+                description: `SCP-1900 é um fenômeno anômalo que causa inundações súbitas e misteriosas em locais específicos, com água que parece ter propriedades desconhecidas e perigosas.`,
+                type: "Fenômeno",
+                category: "Euclid",
+                appearance: `Água que se espalha rapidamente e cobre grandes áreas em um curto espaço de tempo.`,
+                characteristics: `A água associada a SCP-1900 tem propriedades de corrosão acelerada e pode ter efeitos psicoativos em quem entra em contato.`,
+                origin: `Primeira ocorrência registrada em uma cidade costeira onde os moradores relataram uma inundação que não parava de crescer.`,
+                risks: `Perigo de destruição de propriedades, perda de vidas e danos permanentes à ecologia local.`,
+                containment: `Monitorado por equipamentos de rastreamento de nível 3 e intervenções emergenciais em áreas ameaçadas.`,
+                notes: `A natureza de SCP-1900 e seu impacto a longo prazo ainda são objeto de estudo intensivo.`,
+                related_articles: ["scp-093", "scp-610"]
+            },
+            "scp-???": {
+                title: "SCP-???",
+                description: `Detalhes sobre SCP-??? ainda não foram divulgados. Este item é mantido em sigilo e está aguardando uma classificação apropriada.`,
+                type: "Desconhecido",
+                category: "Desconhecido",
+                appearance: `Informações não disponíveis.`,
+                characteristics: `Informações não disponíveis.`,
+                origin: `Informações não disponíveis.`,
+                risks: `Informações não disponíveis.`,
+                containment: `Informações não disponíveis.`,
+                notes: `Este SCP está atualmente em uma fase de investigação, e mais dados serão adicionados quando apropriado.`,
+                related_articles: []
+            }
+        };
+
+
+        const pages = document.querySelectorAll('.page');
+        const prevButton = document.getElementById('prev-page');
+        const nextButton = document.getElementById('next-page');
+        let currentPage = 0;
+
+        function showPage(index) {
+            pages.forEach((page, i) => {
+                page.style.display = i === index ? 'block' : 'none';
+            });
+
+            // Atualiza a visibilidade dos botões
+            prevButton.style.display = index === 0 ? 'none' : 'block';
+            nextButton.style.display = index === pages.length - 1 ? 'none' : 'block';
+        }
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const scp = item.getAttribute('data-scp');
+                const details = scpDetails[scp];
+
+                if (details) {
+                    document.getElementById('details-title').textContent = details.title;
+                    document.getElementById('details-description').textContent = details.description;
+                    document.getElementById('details-type').textContent = `Tipo: ${details.type}`;
+                    document.getElementById('details-category').textContent = `Categoria: ${details.category}`;
+                    document.getElementById('details-appearance').textContent = details.appearance;
+                    document.getElementById('details-characteristics').textContent = details.characteristics;
+                    document.getElementById('details-origin').textContent = details.origin;
+                    document.getElementById('details-risks').textContent = details.risks;
+                    document.getElementById('details-containment').textContent = details.containment;
+                    document.getElementById('details-notes').textContent = details.notes;
+
+                    const relatedArticles = document.getElementById('details-related-articles');
+                    relatedArticles.innerHTML = '';
+                    details.related_articles.forEach(article => {
+                        const li = document.createElement('li');
+                        li.textContent = article;
+                        relatedArticles.appendChild(li);
+                    });
+
+                    currentPage = 0;
+                    showPage(currentPage);
+                }
+            });
+        });
+
+        // Adiciona a funcionalidade de "Voltar" ao pressionar ESC
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                window.history.back();  // Volta para a página anterior
+            }
+        });
+        // Inicializa a exibição da página
+        showPage(currentPage);
+    </script>
+    <script>
+    let currentIndex = 0; // Inicialmente, o item ativo é o primeiro
+
+    // Função para atualizar a classe 'active' do item do menu
+    function updateActiveItem() {
+        // Remove a classe 'active' de todos os itens
+        menuItems.forEach(item => item.classList.remove('active'));
+        // Adiciona a classe 'active' ao item atual
+        menuItems[currentIndex].classList.add('active');
+    }
+
+    // Função para selecionar a opção ativa (pressionar "Enter" ou "Espaço")
+    function selectActiveItem() {
+        const activeItem = menuItems[currentIndex];
+        const link = activeItem.querySelector('a');
+        if (link) {
+            window.location = link.href; // Simula o clique no link
+        }
+    }
+
+    // Função para lidar com o hover do mouse
+    menuItems.forEach((item, index) => {
+        item.addEventListener('mouseenter', () => {
+            currentIndex = index;
+            updateActiveItem();
+        });
+    });
+
+    // Adiciona os event listeners para as teclas
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'ArrowDown') {
+            // Mover para o próximo item no menu
+            currentIndex = (currentIndex + 1) % menuItems.length;
+            updateActiveItem();
+        } else if (event.key === 'ArrowUp') {
+            // Mover para o item anterior no menu
+            currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+            updateActiveItem();
+        } else if (event.key === 'Enter' || event.key === ' ') {
+            // Selecionar o item ativo (pressionar Enter ou Espaço)
+            selectActiveItem();
+        }
+    });
+
+    // Inicializa com o primeiro item ativo
+    updateActiveItem();
+</script>
+</body>
+
+</html>

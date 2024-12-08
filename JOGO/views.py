@@ -11,6 +11,8 @@ def menu(request):
     return render(request, 'JOGO/menu.html')
 def cameras(request):
     return render(request, 'JOGO/cameras.html')
+def bestiario(request):
+    return render(request, 'JOGO/bestiario.html')
 def configuracoes(request):
     return render(request, 'JOGO/index.html')
 def sair(request):

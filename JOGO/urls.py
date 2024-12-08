@@ -9,6 +9,8 @@ urlpatterns = [
     path('sair/', views.sair, name='sair'),
 
     path('identificacao/', views.identificacao, name='identificacao'),
+    path('bestiario/', views.bestiario, name='bestiario'),
+
     path('JOGO/<str:parte>/', views.JOGO, name='JOGO'),
     path('creditos/', views.creditos, name='creditos'),
 
