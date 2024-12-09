@@ -24,8 +24,13 @@
             </div>
         </div>
     </div>
-    <div id="loading-screen" class="loading-screen">
-        <p>Carregando...</p>
+    <div id="radar-container" class="radar-container">
+        <div class="radar">
+            <div class="radar-sweep"></div>
+            <div class="radar-scanlines"></div>
+            <div class="radar-blink"></div>
+        </div>
+        <div class="searching-message">BUSCANDO CONTATO...</div>
     </div>
 
     <script>
@@ -33,6 +38,7 @@
         const skipControls = document.getElementById("skip-controls");
         const progress = document.getElementById("progress");
         const container = document.getElementById("cutscene-container");
+        const radarContainer = document.getElementById("radar-container"); // Referência para o radar
 
         let holdTimer;
         let holdDuration = 0;
@@ -96,10 +102,9 @@
             }
         });
 
-        const loadingScreen = document.getElementById("loading-screen");
-
+        // Esconder radar quando o vídeo estiver pronto para ser reproduzido
         video.addEventListener("canplay", function () {
-            loadingScreen.style.display = "none"; // Ocultar a tela de carregamento
+            radarContainer.style.display = "none"; // Ocultar o radar
         });
 
     </script>
