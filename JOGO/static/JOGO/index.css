@@ -1,171 +1,364 @@
-/* Estilo geral do corpo */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'VT323', 'Courier New', monospace;
-    background: linear-gradient(to bottom, #001a00, rgba(0, 0, 0, 0.88));
-    color: #00ff00;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+@font-face {
+    font-family: "EnterCommand";
+    src:
+        url(https://manz.dev/assets/fonts/entercommand.woff2) format("woff2"),
+        url(https://manz.dev/assets/fonts/entercommand.woff) format("woff");
 }
 
-/* Container principal */
-.splash-container {
-    text-align: center;
+:root {
+    --monitor-light-color: #d3ccbc;
+    --monitor-dark-color: #ccc5b3;
+    --monitor-shadow-light: #d7d4c1;
+    --monitor-shadow-medium: #b7b19b;
+    --monitor-shadow-dark: #908e7a;
+    --monitor-shadow-very-dark: #6e6d5f;
+    --monitor-gradient:
+        linear-gradient(to bottom,
+            var(--monitor-light-color),
+            var(--monitor-dark-color));
+    --monitor-shadow-texture:
+        2px -2px 30px #493e2a33 inset,
+        -2px -2px 30px #493e2a33 inset,
+        1px -1px 1px #493e2a33 inset,
+        -1px -1px 1px #493e2a33 inset,
+        0 2px 30px #ddd inset;
+}
+
+body {
+    background: #336;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+}
+
+.computer-container {
+    --width-monitor: 500px;
+    --height-monitor: 450px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.computer-container .monitor {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
     align-items: center;
-    gap: 20px;
-    animation: fadeIn 1s ease-in-out;
+    width: var(--width-monitor);
+    height: var(--height-monitor);
+    background: var(--monitor-gradient);
+    border-radius: 5px;
+    box-shadow: var(--monitor-shadow-texture);
 }
 
-/* Título do jogo */
-.title {
-    font-size: 2rem;
-    text-transform: uppercase;
-    color: #00ff80;
-    text-shadow: 0 0 12px #00ff80, 0 0 24px #00ff40;
-    animation: zoomIn 2s ease-in-out;
-}
-
-/* Barra de carregamento retro */
-.loading-bar {
+.computer-container .monitor .monitor-inner {
+    width: calc(var(--width-monitor) * 0.75);
+    height: calc(var(--height-monitor) * 0.7);
+    border-radius: 5px;
     display: flex;
-    gap: 5px; /* Espaço entre as barrinhas */
-    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    border: 15px solid var(--monitor-shadow-medium);
+    border-top: 15px solid var(--monitor-shadow-dark);
+    border-bottom: 15px solid var(--monitor-shadow-light);
 }
 
-.bar {
-    width: 20px; /* Largura da barrinha */
-    height: 20px; /* Altura da barrinha */
-    background-color: #003300; /* Cor inicial das barrinhas (apagadas) */
-    border: 2px solid #00ff00;
-    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+.computer-container .monitor .monitor-inner .screen-container {
+    width: calc(var(--width-monitor) * 0.72);
+    height: calc(var(--height-monitor) * 0.68);
+    background: #222;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 3px solid #000;
+    box-shadow:
+        10px 10px 20px 14px #0008 inset,
+        -10px -10px 20px 14px #0008 inset;
+    position: relative;
 }
 
-.bar.active {
-    background-color: #00ff00; /* Cor das barrinhas ativadas */
-    box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+.computer-container .monitor .monitor-inner .screen-container .screen {
+    width: 100%;
+    max-width: calc(var(--width-monitor) * 0.72);
+    font-family: 'VT323', 'Courier New', monospace;
+    font-size: 32px;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    z-index: 5;
+    transition: opacity 0.5s;
 }
 
-/* Mensagem de carregamento */
-.loading-message {
-    font-size: 1rem;
-    color: #00ff80;
-    text-shadow: 0 0 8px #00ff80, 0 0 15px #00ff40;
-    animation: blink 1.5s infinite;
+.computer-container .monitor .monitor-inner .screen-container .screen.off {
+    opacity: 0;
 }
 
-/* Animações */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+
+.computer-container .monitor .monitor-bottom {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(150px, 0);
 }
 
-@keyframes zoomIn {
-    from {
-        transform: scale(0.5);
-        opacity: 0.5;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+.computer-container .monitor .monitor-bottom .power-switch {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(to bottom, var(--monitor-shadow-dark), var(--monitor-shadow-light));
+    border-radius: 50%;
+    margin-right: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-@keyframes blink {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.computer-container .monitor .monitor-bottom .power-switch .button {
+    --symbol-color: #888;
+
+    width: 24px;
+    height: 24px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    background: #cac1b2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Mensagem de interação */
-#press-any-button {
-    font-size: 1rem;
-    color: #00ff80;
-    text-shadow: 0 0 10px #00ff80, 0 0 20px #00ff40;
-    animation: blink 1.5s infinite;
-    margin-top: 20px;
+.computer-container .monitor .monitor-bottom .power-switch .button:active {
+    --symbol-color: #666;
+
+    box-shadow: 1px 1px 2px #0006 inset;
+    background: var(--monitor-shadow-medium);
 }
 
-/* Estado oculto */
-.hidden {
-    display: none;
-}
-
-/* Estado visível */
-.visible {
+.computer-container .monitor .monitor-bottom .power-switch .button::before {
+    content: "";
     display: block;
+    width: 10px;
+    height: 10px;
+    border: 3px solid var(--symbol-color);
+    border-radius: 50%;
+    -webkit-clip-path: polygon(15% 0, 0 0, 0 102%, 102% 100%, 102% 0, 85% 0, 50% 50%);
+    clip-path: polygon(15% 0, 0 0, 0 102%, 102% 100%, 102% 0, 85% 0, 50% 50%);
 }
 
-/* Transição de fade-out */
-.fade-out {
-    animation: fadeOut 1s forwards;
+.computer-container .monitor .monitor-bottom .power-switch .button::after {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 10px;
+    border-radius: 1px;
+    border-left: 3px solid var(--symbol-color);
+    position: absolute;
+    transform: translate(2px, -4px);
 }
 
-/* Animação fade-out */
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+.computer-container .monitor .monitor-bottom .power-led {
+    width: 9px;
+    height: 9px;
+    background: #333;
+    border-radius: 50%;
+    border: 1px solid var(--monitor-shadow-dark);
 }
 
-.scanlines {
-    position: fixed;
-    top: 0;
+.computer-container .monitor .monitor-bottom .power-led:not(.on) {
+    box-shadow: 0 0 1px 1px #2228 inset;
+    -webkit-animation: blink 2s infinite ease-out;
+    animation: blink 2s infinite ease-out;
+}
+
+.computer-container .monitor .monitor-bottom .power-led.on {
+    background: #5cef11;
+    box-shadow: 0 0 1px 1px #2228 inset;
+}
+
+.computer-container .monitor::before,
+.computer-container .monitor::after {
+    content: "";
+    display: block;
+    width: 63px;
+    height: 40px;
+    background: linear-gradient(to right, #0004 65%, #0008 80%);
+    position: absolute;
+    top: 130px;
+}
+
+.computer-container .monitor::before {
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        transparent 0px,
-        rgba(0, 26, 0, 0.48) 2px,
-        transparent 4px
-    );
-    pointer-events: none; /* Para não interferir nos cliques */
-    z-index: 1000; /* Certifique-se de que a interferência está acima de outros elementos */
-    animation: flicker 0.15s infinite;
-    mix-blend-mode: overlay; /* Mistura o efeito com o fundo */
 }
 
-.vignette {
-    position: fixed;
+.computer-container .monitor::after {
+    right: 0;
+    transform: rotate(180deg);
+}
+
+.computer-container .monitor-base {
+    width: calc(var(--width-monitor) * 0.75);
+    height: 45px;
+    background: var(--monitor-gradient);
+    overflow: hidden;
+    border-radius: 0 0 3px 3px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.computer-container .monitor-base::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 30px;
+    background: #0007;
+    filter: blur(8px);
+    transform: translate(0, -10px);
+    position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.5) 100%);
-    pointer-events: none; /* Para não interferir nos cliques */
-    z-index: 1000; /* Certifique-se de que a vinheta está acima de outros elementos */
+    z-index: 5;
 }
 
-@keyframes flicker {
-    0%, 100% {
-        opacity: 0.9;
+.computer-container .monitor-base .wheels-parent {
+    width: 125px;
+    height: 20px;
+    display: flex;
+}
+
+.computer-container .monitor-base .wheels-parent .wheel {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 4px;
+    background: var(--monitor-shadow-light);
+    box-shadow: 0 1px 5px #0009;
+    transform: translate(95px, -26px);
+}
+
+.computer-container .monitor-holder-container {
+    width: calc(var(--width-monitor) * 0.6);
+    perspective: 280px;
+    position: relative;
+    z-index: -1;
+    transform: translateY(-10px);
+}
+
+.computer-container .monitor-holder-container .monitor-holder {
+    width: 100%;
+    height: 90px;
+    background:
+        linear-gradient(to top,
+            var(--monitor-shadow-medium) 5%,
+            var(--monitor-shadow-very-dark) 40%);
+    box-shadow: 0 -10px 20px #0007 inset;
+    transform: rotateX(44deg) translateY(-33px);
+    display: flex;
+    justify-content: center;
+}
+
+.computer-container .monitor-holder-container .monitor-holder .monitor-holder-inner {
+    width: calc(var(--width-monitor) * 0.45);
+    height: 100px;
+    background:
+        linear-gradient(to top,
+            var(--monitor-shadow-medium) 1%,
+            var(--monitor-shadow-dark) 15%);
+    border-radius: 50%;
+    box-shadow: 0 -2px 20px #000a inset;
+    transform: translate(0, -55px);
+}
+
+.computer-container .monitor-holder-container .monitor-holder .monitor-holder-inner-front {
+    content: "";
+    display: block;
+    width: calc(var(--width-monitor) * 0.45);
+    height: 100px;
+    border-radius: 28% 28% 50% 50%;
+    background: #0001;
+    box-shadow: 0 -2px 10px #0004 inset;
+    position: absolute;
+    z-index: -1;
+    transform: translate(0, -32px);
+}
+
+.computer-container .monitor-holder-container .monitor-holder .monitor-holder-inner-front.bottom {
+    background: var(--monitor-shadow-dark);
+    box-shadow:
+        0 -12px 10px #fff4 inset,
+        0 -6px 10px #0001 inset;
+    transform: translate(0, -54px);
+    z-index: 0;
+}
+
+.computer-container .monitor-holder-container .monitor-holder-front {
+    width: calc(var(--width-monitor) * 0.62);
+    height: 20px;
+    background: var(--monitor-shadow-light);
+    transform: translate(-5px, -36px);
+}
+
+@-webkit-keyframes blinkEye {
+
+    0%,
+    80% {
+        transform: translateY(0);
     }
-    50% {
-        opacity: 1;
+
+    80%,
+    100% {
+        transform: translateY(-90%);
+    }
+}
+
+@keyframes blinkEye {
+
+    0%,
+    80% {
+        transform: translateY(0);
+    }
+
+    80%,
+    100% {
+        transform: translateY(-90%);
+    }
+}
+
+@-webkit-keyframes blink {
+
+    0%,
+    19% {
+        background: #ed9940;
+    }
+
+    20%,
+    99% {
+        background: #333;
     }
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    19% {
+        background: #ed9940;
+    }
+
+    20%,
+    99% {
+        background: #333;
+    }
 }
-#press-any-key {
-    animation: blink 1s infinite;
-}
+

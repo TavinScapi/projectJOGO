@@ -19,6 +19,8 @@ def sair(request):
     return render(request, 'JOGO/index.html')
 def cutscene(request):
     return render(request, 'JOGO/cutscene.html')
+def splash_screen(request):
+    return render(request, 'JOGO/splash_screen.html')
 
 
 

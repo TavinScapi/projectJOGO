@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen Retro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'JOGO/splash_screen.css' %}">
+</head>
+<body><div class="scanlines"></div>
+<div class="vignette"></div>
+    <div id="splash-container" class="splash-container">
+        <div class="title">Echoes of the Primordial</div>
+        <div id="loading-bar" class="loading-bar">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <div id="loading-message" class="loading-message">Carregando...</div>
+        <div id="press-any-key" class="press-any-key" style="display: none;">Aperte qualquer botão para continuar</div>
+    </div>
+
+    <audio id="loading-sound" src="{% static 'JOGO/sounds/loading.mp3' %}" preload="auto"></audio>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const splashContainer = document.getElementById('splash-container');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingMessage = document.getElementById('loading-message');
+            const pressAnyKey = document.getElementById('press-any-key');
+            const bars = document.querySelectorAll('.bar');
+            const loadingSound = document.getElementById('loading-sound');
+            let currentBar = 0;
+
+            function startLoading() {
+                loadingSound.play();
+                const interval = setInterval(() => {
+                    if (currentBar < bars.length) {
+                        bars[currentBar].classList.add('active');
+                        currentBar++;
+                    } else {
+                        clearInterval(interval);
+                        setTimeout(() => {
+                            finishLoading();
+                        }, 1000);
+                    }
+                }, 600);
+            }
+
+            function finishLoading() {
+                loadingBar.style.display = 'none';
+                loadingMessage.style.display = 'none';
+                pressAnyKey.style.display = 'block';
+                document.addEventListener('keydown', goToMenu);
+                document.addEventListener('click', goToMenu);
+            }
+
+            function goToMenu() {
+                splashContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = "{% url 'menu' %}";
+                }, 1000);
+            }
+
+            startLoading();
+        });
+    </script>
+</body>
+</html>
