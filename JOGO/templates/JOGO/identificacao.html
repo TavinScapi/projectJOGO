@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Identificação - Fundação SCP</title>
+
+    <!-- Font and Stylesheets -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'JOGO/identificacao.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
 </head>
+
 <body>
     <div class="scanlines"></div>
     <div class="vignette"></div>
+
+    <!-- Main Container -->
     <div class="menu-container">
         <h1 class="title">IDENTIFICAÇÃO DE USUÁRIO</h1>
         <p id="welcome-message">Insira seu nome e senha para gerar o cartão de acesso.</p>
+
+        <!-- Form to Generate Access Card -->
         <form id="generate-card-form" method="POST">
             {% csrf_token %}
             <label for="username" class="input-label">Nome:</label>
             <input type="text" id="username" name="username" class="input-field" required autocomplete="off">
+
             <label for="password" class="input-label">Senha:</label>
             <input type="password" id="password" name="password" class="input-field" required autocomplete="off">
+
             <button type="button" id="generate-card-button" class="submit-button">Gerar Cartão de Acesso</button>
         </form>
+
+        <!-- Access Card Display -->
         <div id="access-card" class="access-card" style="display: none;">
             <div class="card-header">
                 <img src="{% static 'JOGO/images/SCP.png' %}" alt="Logo da Empresa" class="company-logo">
@@ -32,28 +44,64 @@
             <p><strong>ID:</strong> <span id="card-id"></span></p>
             <p><strong>Departamento:</strong> <span id="card-department"></span></p>
             <p><strong>Cargo:</strong> <span id="card-role"></span></p>
-            <svg id="barcode"></svg> <!-- Código de barras gerado aqui -->
+            <svg id="barcode"></svg>
         </div>
+
+        <!-- Login Form -->
         <form id="login-form" method="POST" action="{% url 'cutscene' %}" style="display: none;">
             {% csrf_token %}
             <br>
             <button type="submit" class="submit-button">Entrar</button>
         </form>
+
+        <!-- System Logs -->
         <div class="system-logs">
             <p>Logs do Sistema:</p>
             <div id="logs">
                 <p>[LOG-001] Aguardando autenticação...</p>
             </div>
         </div>
-    </div>
-    <script>
-        const departments = ["Pesquisa e Desenvolvimento", "Segurança", "Contenção", "Administração", "Tecnologia da Informação"];
-        const roles = ["Pesquisador Júnior", "Agente de Segurança", "Administrador", "Especialista em Contenção", "Analista de TI"];
 
+        <!-- Objective Modal -->
+        <div id="objective-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2>Objetivo do Funcionário</h2>
+                <p id="employee-objective"></p>
+                <button id="ok-button" class="submit-button">Prosseguir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Arrays for Departments and Roles
+        const departments = [
+            "Pesquisa e Desenvolvimento",
+            "Segurança",
+            "Contenção",
+            "Administração",
+            "Tecnologia da Informação",
+            "Manutenção",
+            "Alimentação",
+            "Limpeza"
+        ];
+
+        const roles = [
+            "Pesquisador Júnior",
+            "Agente de Segurança",
+            "Administrador",
+            "Especialista em Contenção",
+            "Analista de TI",
+            "Técnico de Manutenção",
+            "Cozinheiro",
+            "Faxineiro"
+        ];
+
+        // Generate Random ID
         function generateRandomID() {
             return Math.floor(100000 + Math.random() * 900000);
         }
 
+        // Generate Access Card
         document.getElementById("generate-card-button").addEventListener("click", function () {
             const usernameInput = document.getElementById("username").value;
             const passwordInput = document.getElementById("password").value;
@@ -79,7 +127,7 @@
             document.getElementById("card-department").textContent = cardDepartment;
             document.getElementById("card-role").textContent = cardRole;
 
-            // Gerando código de barras
+            // Generate Barcode
             JsBarcode("#barcode", cardID.toString(), {
                 format: "CODE128",
                 lineColor: "#000",
@@ -94,12 +142,43 @@
 
             const logsContainer = document.getElementById('logs');
             const log = document.createElement('p');
-            log.textContent = "[LOG-003] Cartão de acesso gerado com sucesso para o usuário " + cardName + ".";
+            log.textContent = `[LOG-003] Cartão de acesso gerado com sucesso para o usuário ${cardName}.`;
             logsContainer.appendChild(log);
             if (logsContainer.childNodes.length > 5) {
                 logsContainer.removeChild(logsContainer.firstChild);
             }
         });
+
+        // Objectives by Role
+        const objectives = {
+            "Pesquisador Júnior": "Realizar experimentos com segurança no submarino durante o turno designado. O turno será determinado pelo administrador, com duração de 6 horas. Trabalhar em parceria com o Especialista em Contenção e o Analista de TI. Data da missão: 25/08/1970. Garantir a documentação completa das anomalias detectadas durante a viagem para análise na base subaquática.",
+            "Agente de Segurança": "Monitorar e proteger as instalações do submarino durante o turno de 8 horas. A proteção será realizada em turnos rotativos definidos pelo administrador, coordenando-se com outros agentes. Responder a emergências a bordo e manter a contenção de SCPs até a chegada à base subaquática. Missão solicitada pelo Diretor de Segurança. Data da missão: 25/08/1970.",
+            "Administrador": "Supervisionar todas as operações a bordo do submarino, organizando turnos de trabalho de 6 a 8 horas para cada equipe. Coordenar diretamente com o Diretor de Operações da Fundação. Trabalhar com parceiros-chave como o Técnico de Manutenção e o Especialista em Contenção para garantir a logística e segurança da missão. Data da missão: 25/08/1970.",
+            "Especialista em Contenção": "Desenvolver e implementar protocolos de contenção para SCPs transportados no submarino. Atuar em parceria com o Pesquisador Júnior durante o turno de 6 horas, garantindo a segurança das anomalias. Protocolo solicitado pelo Diretor de Pesquisa. Data da missão: 25/08/1970.",
+            "Analista de TI": "Garantir que todos os sistemas do submarino estejam operacionais durante turnos de 6 horas. Trabalhar em colaboração com o Pesquisador Júnior para registrar e processar os dados das anomalias detectadas. Horários definidos pelo administrador. Data da missão: 25/08/1970.",
+            "Técnico de Manutenção": "Realizar inspeções e reparos em equipamentos e infraestrutura do submarino, garantindo a funcionalidade contínua. Atuar em turnos de 8 horas, organizados pelo administrador. Coordenar-se com o Cozinheiro para manter as áreas técnicas e comuns operacionais. Missão solicitada pelo Diretor de Operações. Data da missão: 25/08/1970.",
+            "Cozinheiro": "Preparar refeições para os funcionários do submarino em turnos de 5 horas, garantindo a nutrição adequada da tripulação. Coordenar-se com o Técnico de Manutenção para manter a organização e funcionalidade da cozinha. Solicitação feita pelo Diretor de Recursos Humanos. Data da missão: 25/08/1970.",
+            "Faxineiro": "Manter todos os ambientes do submarino limpos e higienizados em turnos de 6 horas, alternando-se com outros faxineiros conforme definido pelo administrador. Garantir a higienização especialmente nas áreas de contenção e alimentação. Solicitação do Administrador Geral. Data da missão: 25/08/1970."
+        };
+
+        // Show Objective Modal
+        document.getElementById("login-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent immediate form submission
+
+            const cardRole = document.getElementById("card-role").textContent;
+            const objective = objectives[cardRole];
+
+            document.getElementById("employee-objective").textContent = objective;
+            document.getElementById("objective-modal").style.display = "flex";
+        });
+
+        // Handle Objective Modal OK Button
+        document.getElementById("ok-button").addEventListener("click", function () {
+            document.getElementById("objective-modal").style.display = "none";
+            document.getElementById("login-form").submit(); // Submit form to cutscene page
+        });
+
     </script>
 </body>
+
 </html>

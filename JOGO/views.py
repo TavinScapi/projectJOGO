@@ -21,6 +21,8 @@ def cutscene(request):
     return render(request, 'JOGO/cutscene.html')
 def splash_screen(request):
     return render(request, 'JOGO/splash_screen.html')
+def room(request):
+    return render(request, 'JOGO/room.html')
 
 
 
@@ -35,221 +37,158 @@ def JOGO(request, parte='inicio'):
 
     return render(request, 'JOGO/jogo.html', {'historia': historia_parte})
 
-
 historia = {
     'inicio': {
         'texto': (
-            "Você está em uma floresta escura, onde a lua parece ser a única testemunha do que está prestes a acontecer. "
-            "O som de corujas e o farfalhar das folhas criam uma melodia inquietante. "
-            "Há duas trilhas à sua frente: uma leva a uma caverna sombria, de onde ecoam sons perturbadores; "
-            "a outra segue para um antigo vilarejo coberto de neblina, conhecido por seu passado trágico. "
-            "O ar está pesado, como se a própria floresta quisesse impedir sua escolha."
+            "Você se encontra em uma instalação subterrânea de pesquisa, cheia de corredores frios e desolados. "
+            "As luzes flickerem acima, jogando sombras ameaçadoras contra as paredes brancas. À sua frente, há duas portas: "
+            "uma leva a uma sala de contenção SCP, de onde vem um murmúrio grave e incomum; a outra leva a uma área de pesquisa antiga, "
+            "coberta de poeira e arquivos abandonados. O ar é carregado de tensão, como se algo estivesse escondido nas sombras."
         ),
-        'imagem': 'floresta_escuridao.jpg',  # Imagem da floresta
+        'imagem': 'instalacao_scientifica.jpg',  # Imagem da instalação SCP
         'escolhas': [
-            {'texto': 'Seguir para a caverna', 'proximo': 'caverna_entrada'},
-            {'texto': 'Ir ao vilarejo', 'proximo': 'vilarejo'}
+            {'texto': 'Seguir para a sala de contenção SCP', 'proximo': 'sala_construcao'},
+            {'texto': 'Explorar a área de pesquisa antiga', 'proximo': 'pesquisa_antiga'}
         ]
     },
-    'caverna_entrada': {
+    'sala_construcao': {
         'texto': (
-            "A entrada da caverna parece a boca de uma criatura gigante, escura e faminta. O ar dentro é úmido, "
-            "e um cheiro metálico mistura-se ao som de gotas ecoando. Ao observar mais atentamente, você percebe "
-            "uma inscrição na parede, com palavras antigas que brilham fracamente: *'A coragem abre os caminhos do destino.'* "
-            "Você sente calafrios. Dois caminhos surgem à frente: uma passagem estreita que parece sussurrar segredos e "
-            "um túnel largo com pegadas pesadas que não inspiram confiança."
+            "Ao entrar na sala de contenção SCP, você encontra uma série de câmeras de segurança espalhadas por todo o local. "
+            "Na frente, há uma máquina de contenção com luzes piscando e um painel de controle que mostra vários SCPs classificados como 'Altamente Perigosos'. "
+            "Uma voz eletrônica ecoa do sistema de som, avisando sobre uma brecha de segurança em algum lugar do complexo. Você percebe que há duas saídas: "
+            "uma que leva a uma sala de emergência, onde pode encontrar suprimentos, e outra que leva a um corredor escuro, onde a segurança parece mais intensa."
         ),
-        'imagem': 'caverna_entrada.jpg',  # Imagem para a entrada da caverna
+        'imagem': 'sala_construcao.jpg',  # Imagem da sala de contenção
         'escolhas': [
-            {'texto': 'Explorar a passagem estreita, apesar do risco', 'proximo': 'passagem_estreita'},
-            {'texto': 'Seguir pelo túnel largo, mesmo com o perigo iminente', 'proximo': 'tunel_largo'}
+            {'texto': 'Procurar na sala de emergência por suprimentos', 'proximo': 'sala_emergencia'},
+            {'texto': 'Seguir pelo corredor escuro, mesmo com a segurança alta', 'proximo': 'corredor_seguro'}
         ]
     },
-    'passagem_estreita': {
+    'pesquisa_antiga': {
         'texto': (
-            "Você se espreme pela passagem, sentindo o peso das paredes de pedra ao seu redor. Sua respiração "
-            "fica difícil, e você percebe que cada movimento faz ecoar um som abafado, como se algo mais estivesse "
-            "ali, ouvindo. No fim da passagem, há um baú antigo coberto de poeira. Antes de tocá-lo, você sente um "
-            "ar gelado passar pelo seu pescoço, e uma risada fraca ecoa na escuridão. Está preparado?"
+            "Ao explorar a área de pesquisa antiga, você encontra arquivos e documentos amarelados. Um dos documentos destaca-se, descrevendo um SCP que "
+            "é capaz de alterar a percepção do tempo de quem o observa. O ar no local parece pesado, e você escuta passos discretos atrás de você. "
+            "Há duas opções: uma leva a uma sala de observação, onde você pode tentar aprender mais sobre o SCP, e a outra leva a uma sala de segurança, "
+            "aparentemente trancada, mas com uma janela que revela algo inquietante lá dentro."
         ),
-        'imagem': 'passagem_estreita.jpg',  # Imagem da passagem estreita
+        'imagem': 'pesquisa_antiga.jpg',  # Imagem da área de pesquisa antiga
         'escolhas': [
-            {'texto': 'Abrir o baú, enfrentando o medo', 'proximo': 'bau'},
-            {'texto': 'Sair rapidamente e voltar para a entrada da caverna', 'proximo': 'caverna_entrada'}
+            {'texto': 'Entrar na sala de observação', 'proximo': 'sala_observacao'},
+            {'texto': 'Tentar abrir a sala de segurança', 'proximo': 'sala_seguranca'}
         ]
     },
-    'bau': {
+    'sala_emergencia': {
         'texto': (
-            "Você abre o baú lentamente, e um rangido ecoa como um grito distante. Dentro, encontra uma espada "
-            "antiga, coberta de ferrugem, mas ainda reluzente em partes. Junto dela, há um pequeno diário com letras "
-            "desgastadas que diz: *'O portador desta lâmina deve estar pronto para sacrificar tudo.'* O peso da escolha "
-            "se torna real. Será que vale a pena arriscar?"
+            "Na sala de emergência, você encontra uma máscara de gás e um kit de primeiros socorros. Enquanto os pega, uma mensagem aparece em um monitor: "
+            "'Atenção, brecha de segurança detectada em SCP-096. A evacuação imediata é recomendada.' Você percebe que há um caminho para a superfície, "
+            "mas uma porta com luz vermelha barrando o caminho, e outra que leva a um laboratório ao lado, aparentemente inutilizado."
         ),
-        'imagem': 'bau.jpg',  # Imagem do baú
+        'imagem': 'sala_emergencia.jpg',  # Imagem da sala de emergência
         'escolhas': [
-            {'texto': 'Pegar a espada e aceitar o risco', 'proximo': 'tunel_largo'},
-            {'texto': 'Deixar a espada e retornar à entrada', 'proximo': 'caverna_entrada'}
+            {'texto': 'Seguir para a superfície pela porta barrada', 'proximo': 'superficie'},
+            {'texto': 'Explorar o laboratório ao lado', 'proximo': 'laboratorio'}
         ]
     },
-    'tunel_largo': {
+    'corredor_seguro': {
         'texto': (
-            "No túnel largo, o ar fica mais pesado a cada passo. Você sente uma vibração no chão e ouve uma respiração "
-            "profunda e lenta à distância. Ao se aproximar, vê um dragão colossal adormecido. Ele guarda um brilho dourado "
-            "que ilumina a caverna, revelando montanhas de tesouros. Seu coração bate rápido. Um espirro seu pode acordá-lo."
+            "O corredor escuro é silencioso e cheio de umidade. Ao longe, você ouve o som de algo que se move. Seguindo em frente, você encontra um SCP-173 preso em uma gaiola. "
+            "Ele te observa sem piscar, sua presença é inquietante. Há uma porta que leva a um laboratório mais iluminado, e outra que parece dar para a área externa, "
+            "com uma pequena janela quebrada por onde se vê a noite lá fora."
         ),
-        'imagem': 'tunel_dragao.jpg',  # Imagem do túnel largo com o dragão
+        'imagem': 'corredor_seguro.jpg',  # Imagem do corredor com SCP-173
         'escolhas': [
-            {'texto': 'Tentar roubar o tesouro silenciosamente', 'proximo': 'dragao_tesouro'},
-            {'texto': 'Enfrentar o dragão com a espada, mesmo sendo quase suicídio', 'proximo': 'lutar_dragao'},
-            {'texto': 'Desistir do tesouro e recuar', 'proximo': 'caverna_entrada'}
+            {'texto': 'Entrar no laboratório iluminado', 'proximo': 'laboratorio'},
+            {'texto': 'Sair pela área externa', 'proximo': 'area_externa'}
         ]
     },
-    'dragao_tesouro': {
+    'sala_observacao': {
         'texto': (
-            "Você se aproxima com passos leves, mas um pequeno deslize faz uma moeda cair. O som desperta o dragão, "
-            "cujos olhos brilham como brasas. Ele rosna profundamente antes de lançar chamas em sua direção. Você tenta "
-            "fugir, mas não há tempo. O dragão é implacável. Você é consumido pelas chamas.\n\nFim do jogo."
+            "Na sala de observação, você encontra um SCP-106 preso em uma caixa de contenção. O ar ao redor está gelado e a caixa emite um brilho fraco. "
+            "Há um monitor mostrando imagens de pessoas desaparecendo em ambientes diferentes. Uma voz eletrônica avisa: 'Atenção, SCP-106 em movimento.' "
+            "Duas saídas surgem: uma para o corredor de contenção e outra para uma sala de segurança.",
         ),
-        'imagem': 'dragao_furioso.jpg',  # Imagem do dragão acordado
+        'imagem': 'sala_observacao.jpg',  # Imagem da sala de observação
         'escolhas': [
-            {'texto': 'FIM', 'proximo': 'creditos'}
+            {'texto': 'Seguir para o corredor de contenção', 'proximo': 'corredor_construcao'},
+            {'texto': 'Ir para a sala de segurança', 'proximo': 'sala_seguranca'}
         ]
     },
-    'lutar_dragao': {
+    'sala_seguranca': {
         'texto': (
-            "Com a espada enferrujada em mãos, você avança contra o dragão. O calor do seu sopro parece derreter sua "
-            "determinação, mas você não desiste. A batalha é feroz e dolorosa, e, no fim, a lâmina quebra. No entanto, "
-            "um golpe certeiro faz o dragão rugir e fugir, deixando o tesouro para trás. Você venceu, mas está gravemente ferido.\n\n"
-            "Parabéns, você sobreviveu, mas a que custo?"
+            "Na sala de segurança, você encontra um computador com várias câmeras de segurança. Um alarme soa, e um aviso aparece: 'Atenção, brecha de segurança no SCP-682. "
+            "A contenção foi rompida.' Há uma única saída, mas leva a um corredor escuro e fechado. A outra porta está trancada com código de segurança.",
         ),
-        'imagem': 'batalha_dragao.jpg',  # Imagem da batalha
+        'imagem': 'sala_seguranca.jpg',  # Imagem da sala de segurança
         'escolhas': [
-            {'texto': 'FIM', 'proximo': 'creditos'}
+            {'texto': 'Tentar acessar o código de segurança', 'proximo': 'codigo_seguranca'},
+            {'texto': 'Seguir pelo corredor escuro', 'proximo': 'corredor_escuro'}
         ]
     },
-    'vilarejo': {
+    'laboratorio': {
         'texto': (
-            "Ao chegar ao vilarejo, uma sensação inquietante toma conta de você. As ruas estão desertas, mas há sinais de vida: "
-            "uma lamparina ainda acesa balança ao vento em frente à taberna, e o sino da igreja toca sozinho, ecoando como um chamado distante. "
-            "Há rumores de que o vilarejo está amaldiçoado, mas ninguém sabe ao certo o que aconteceu com seus moradores.\n\n"
-            "Você precisa decidir para onde ir. No céu, corvos se empoleiram nas casas, observando seus passos como juízes silenciosos."
+            "O laboratório está vazio, mas você encontra um caderno de notas com experimentos antigos sobre SCP-049. As anotações indicam que ele é uma entidade que pode curar doenças, "
+            "mas também transforma pessoas em 'infectados'. Você ouve passos atrás de você e uma voz fraca sussurra: 'Fuja, antes que seja tarde.'"
         ),
-        'imagem': 'vilarejo_assombrado.jpg',  # Imagem do vilarejo deserto
+        'imagem': 'laboratorio.jpg',  # Imagem do laboratório
         'escolhas': [
-            {'texto': 'Explorar a taberna e enfrentar os rumores de assombrações', 'proximo': 'taberna'},
-            {'texto': 'Seguir para a igreja e investigar o mistério do sino solitário', 'proximo': 'igreja'}
+            {'texto': 'Procurar por suprimentos no laboratório', 'proximo': 'procurar_suprimentos'},
+            {'texto': 'Sair do laboratório e voltar para o corredor', 'proximo': 'corredor_seguro'}
         ]
     },
-    'taberna': {
+    'codigo_seguranca': {
         'texto': (
-            "A taberna parece abandonada há anos. Mesas e cadeiras estão tombadas, copos quebrados espalhados pelo chão. "
-            "Ao entrar, você sente um cheiro estranho, uma mistura de bebida fermentada e algo pútrido. "
-            "Atrás do balcão, há um diário coberto de poeira, com a capa gravada em letras: *'Segredos da Noite.'* "
-            "Antes que possa pegar o livro, uma risada fantasmagórica ecoa, seguida de um som de passos no andar de cima."
+            "Você tenta desbloquear a porta com o código de segurança. A senha correta é um anagrama de 'contained', mas você está correndo contra o tempo. A cada erro, o alarme soa mais alto. "
+            "Finalmente, você consegue abrir a porta, mas o corredor está preenchido por SCP-682, um crocodilo humanoide, rugindo e avançando na sua direção."
         ),
-        'imagem': 'taberna_abandonada.jpg',  # Imagem da taberna abandonada
+        'imagem': 'codigo_seguranca.jpg',  # Imagem do código de segurança
         'escolhas': [
-            {'texto': 'Ler o diário, mesmo com os passos assustadores', 'proximo': 'ler_diario'},
-            {'texto': 'Investigar o andar de cima, enfrentando o medo', 'proximo': 'andar_de_cima'},
-            {'texto': 'Sair da taberna e explorar outra parte do vilarejo', 'proximo': 'vilarejo'}
+            {'texto': 'Tentar lutar contra SCP-682', 'proximo': 'luta'},
+            {'texto': 'Fugir pela porta aberta', 'proximo': 'superficie'}
         ]
     },
-    'ler_diario': {
+    'procurar_suprimentos': {
         'texto': (
-            "Você abre o diário com cuidado, e as páginas parecem grudar nos seus dedos. Ele descreve avistamentos de uma criatura "
-            "que aparece apenas à noite, atraída por sons e cheiros humanos. *'Ela é rápida, mas teme a luz,'* diz a última página. "
-            "De repente, uma sombra se move pelo salão, e você sente que não está sozinho."
+            "Enquanto procura por suprimentos, você encontra uma máscara de gás e uma pistola velha. O som de passos vem do corredor. "
+            "Você percebe que SCP-049 está vindo em sua direção. Sua única saída é lutar ou correr.",
         ),
-        'imagem': 'diario_segredos.jpg',  # Imagem do diário
+        'imagem': 'procurar_suprimentos.jpg',  # Imagem dos suprimentos
         'escolhas': [
-            {'texto': 'Fugir da taberna antes que seja tarde demais', 'proximo': 'vilarejo'},
-            {'texto': 'Enfrentar a sombra e tentar descobrir o que está acontecendo', 'proximo': 'sombra_taberna'}
+            {'texto': 'Usar a pistola para enfrentar SCP-049', 'proximo': 'luta_scp049'},
+            {'texto': 'Fugir rapidamente pela porta', 'proximo': 'superficie'}
         ]
     },
-    'andar_de_cima': {
+    'luta': {
         'texto': (
-            "Você sobe as escadas lentamente, cada degrau rangendo sob seus pés. O andar de cima está tomado por teias de aranha "
-            "e poeira, mas você ouve murmúrios vindos de um quarto no final do corredor. Ao abrir a porta, você encontra um espelho antigo, "
-            "e nele, uma versão de você mesmo que começa a rir de forma maníaca. O que você faz?"
+            "Você enfrenta SCP-682 em uma batalha intensa. Sua resistência é extraordinária, mas você acaba ferido. No fim, ou ele ou você."
+            "\n\nFim do jogo."
         ),
-        'imagem': 'espelho_sombrio.jpg',  # Imagem do espelho sombrio
-        'escolhas': [
-            {'texto': 'Destruir o espelho e quebrar o feitiço', 'proximo': 'espelho_quebrado'},
-            {'texto': 'Fugir do quarto e voltar para a entrada', 'proximo': 'taberna'}
-        ]
-    },
-    'espelho_quebrado': {
-        'texto': (
-            "Ao quebrar o espelho, um grito agudo ecoa pela taberna, e a figura dentro dele desaparece. "
-            "Você encontra um amuleto brilhante entre os cacos de vidro. Ele parece ter um propósito, mas você não sabe qual ainda. "
-            "O ambiente ao seu redor fica mais leve, como se algo tivesse sido libertado."
-        ),
-        'imagem': 'amuleto_brilhante.jpg',  # Imagem do amuleto
-        'escolhas': [
-            {'texto': 'Levar o amuleto com você e continuar explorando', 'proximo': 'vilarejo'}
-        ]
-    },
-    'igreja': {
-        'texto': (
-            "A igreja é majestosa, mesmo em sua decadência. O sino para de tocar assim que você cruza os portões. "
-            "No altar, há um sacerdote idoso, que parece aliviado ao vê-lo. Ele explica que o vilarejo foi amaldiçoado "
-            "devido à ganância de seus antigos líderes, e que apenas um ritual perigoso pode quebrar a maldição.\n\n"
-            "No entanto, você percebe que algo está errado: a sombra do sacerdote não combina com seus movimentos."
-        ),
-        'imagem': 'igreja_sombra.jpg',  # Imagem da igreja
-        'escolhas': [
-            {'texto': 'Confiar no sacerdote e ajudar no ritual', 'proximo': 'ritual_maldicao'},
-            {'texto': 'Confrontar o sacerdote sobre sua sombra estranha', 'proximo': 'sacerdote_sombra'},
-            {'texto': 'Fugir da igreja e buscar outra solução', 'proximo': 'vilarejo'}
-        ]
-    },
-    'sacerdote_sombra': {
-        'texto': (
-            "Você aponta para a sombra, e o sacerdote hesita antes de começar a rir. Ele revela ser o espírito de um "
-            "dos líderes gananciosos, preso à igreja até que a maldição seja quebrada. Ele implora que você o ajude, "
-            "mas avisa: *'A maldição é faminta. Sempre haverá um preço a pagar.'*"
-        ),
-        'imagem': 'sacerdote_sombra_revelada.jpg',  # Imagem do sacerdote revelado
-        'escolhas': [
-            {'texto': 'Aceitar ajudar no ritual, apesar do risco', 'proximo': 'ritual_maldicao'},
-            {'texto': 'Recusar e continuar explorando', 'proximo': 'vilarejo'}
-        ]
-    },
-    'ritual_maldicao': {
-        'texto': (
-            "O sacerdote começa o ritual, entoando palavras em uma língua antiga. O ambiente ao redor escurece, "
-            "e sombras começam a dançar nas paredes. Você sente algo pesado em seu peito, como se a maldição tentasse te consumir. "
-            "De repente, a criatura do vilarejo aparece, interrompendo o ritual. Você precisa decidir rápido."
-        ),
-        'imagem': 'ritual_interrompido.jpg',  # Imagem do ritual sendo interrompido
-        'escolhas': [
-            {'texto': 'Proteger o sacerdote para completar o ritual', 'proximo': 'ritual_sucesso'},
-            {'texto': 'Lutar contra a criatura para salvar a si mesmo', 'proximo': 'criatura_combate'}
-        ]
-    },
-    'ritual_sucesso': {
-        'texto': (
-            "Você defende o sacerdote enquanto ele completa o ritual. A criatura grita de dor enquanto é consumida pela luz, "
-            "e a maldição finalmente é quebrada. O vilarejo começa a recuperar sua antiga beleza, mas o sacerdote desaparece, "
-            "deixando para trás apenas uma frase no ar: *'Você será lembrado.'* Você venceu, mas sente que perdeu algo importante."
-        ),
-        'imagem': 'ritual_completo.jpg',  # Imagem do ritual concluído
+        'imagem': 'luta_final.jpg',  # Imagem da luta contra SCP-682
         'escolhas': [
             {'texto': 'FIM', 'proximo': 'creditos'}
         ]
     },
-    'criatura_combate': {
+    'luta_scp049': {
         'texto': (
-            "Você enfrenta a criatura com tudo que tem, mas ela é ágil e implacável. Após uma luta intensa, "
-            "você consegue feri-la, mas também sai gravemente machucado. O ritual é interrompido, e a maldição permanece.\n\n"
-            "Fim do jogo."
+            "Você tenta lutar contra SCP-049, mas ele é rápido e ágil. Seus ataques causam ferimentos graves. Sem saída, você decide usar a máscara de gás. "
+            "O SCP-049 parece enfraquecer e recuar, permitindo sua fuga."
+            "\n\nFim do jogo."
         ),
-        'imagem': 'luta_criatura.jpg',  # Imagem da luta contra a criatura
+        'imagem': 'luta_final.jpg',  # Imagem da luta contra SCP-049
+        'escolhas': [
+            {'texto': 'FIM', 'proximo': 'creditos'}
+        ]
+    },
+    'superficie': {
+        'texto': (
+            "Finalmente, você consegue alcançar a superfície. A noite está fria e o céu estrelado parece uma dádiva, depois de tudo o que enfrentou. "
+            "Você respira fundo e, com um sorriso fraco, sabe que fez o que pôde. Talvez seja hora de sair da instalação... ou de voltar e encarar a próxima ameaça."
+            "\n\nFim do jogo."
+        ),
+        'imagem': 'superficie.jpg',  # Imagem da saída para a superfície
         'escolhas': [
             {'texto': 'FIM', 'proximo': 'creditos'}
         ]
     }
-
 }
 
 def creditos(request):

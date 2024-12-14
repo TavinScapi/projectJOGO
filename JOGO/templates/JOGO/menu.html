@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -8,166 +9,186 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'JOGO/menu.css' %}">
 </head>
+
 <body>
-<div class="scanlines"></div>
-<div class="vignette"></div>
-<div class="menu-container">
-    <h1 class="title">SISTEMA DE MONITORAMENTO SCP</h1>
-    <p id="welcome-message"></p>
-    <div class="divider"></div>
-    <p class="system-info">
-        <span>Sistema: <span class="highlight">ONLINE</span></span><br>
-        <span>Versão: <span class="highlight">1.4.7-BETA</span></span><br>
-        <span>Servidor: <span class="highlight">Operacional</span></span>
-    </p>
-    <p class="status-indicator">Status do Sistema: <span id="status" class="highlight">Normal</span></p>
-    <ul class="menu-options" id="menu-options">
-        <li class="menu-item active">
-            <span class="menu-arrow">▶</span>
-            <a href="{% url 'identificacao' %}">Iniciar Operação</a>
-        </li>
-        <li class="menu-item">
-            <span class="menu-arrow">▶</span>
-            <a href="{% url 'cameras' %}">Vizualizar Cameras</a>
-        </li>
-        <li class="menu-item">
-            <span class="menu-arrow">▶</span>
-            <a href="{% url 'bestiario' %}">Bestiário SCP</a>
-        </li>        
-        <li class="menu-item">
-            <span class="menu-arrow">▶</span>
-            <a href="{% url 'configuracoes' %}">Configurações</a>
-        </li>
-        <li class="menu-item">
-            <span class="menu-arrow">▶</span>
-            <a href="#" id="sair-button">Encerrar Sessão</a>
-        </li>
-    </ul>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+    <div class="menu-container">
+        <h1 class="title">SISTEMA DE MONITORAMENTO SCP</h1>
+        <p id="welcome-message"></p>
+        <div class="divider"></div>
+        <p class="system-info">
+            <span>Sistema: <span class="highlight">ONLINE</span></span><br>
+            <span>Versão: <span class="highlight">1.4.7-BETA</span></span><br>
+            <span>Servidor: <span class="highlight">Operacional</span></span>
+        </p>
+        <p class="status-indicator">Status do Sistema: <span id="status" class="highlight">Normal</span></p>
+        <ul class="menu-options" id="menu-options">
+            <li class="menu-item active">
+                <span class="menu-arrow">▶</span>
+                <a href="{% url 'identificacao' %}">Iniciar Operação</a>
+            </li>
+            <li class="menu-item">
+                <span class="menu-arrow">▶</span>
+                <a href="{% url 'cameras' %}">Vizualizar Cameras</a>
+            </li>
+            <li class="menu-item">
+                <span class="menu-arrow">▶</span>
+                <a href="{% url 'bestiario' %}">Bestiário SCP</a>
+            </li>
+            <li class="menu-item">
+                <span class="menu-arrow">▶</span>
+                <a href="{% url 'configuracoes' %}">Configurações</a>
+            </li>
+            <li class="menu-item">
+                <span class="menu-arrow">▶</span>
+                <a href="{% url 'intro' %}">Encerrar Sessão / Desligar</a>
+            </li>
+        </ul>
 
-    <div class="system-logs">
-        <p>Logs do Sistema:</p>
-        <div id="logs">
-            <p>[LOG-001] Inicializando...</p>
+        <div class="system-logs">
+            <p>Logs do Sistema:</p>
+            <div id="logs">
+                <p>[LOG-001] Inicializando...</p>
+            </div>
         </div>
+        <div id="shutdown-animation" class="hidden">
+            <div class="shutdown-screen">
+                <h1>Encerrando Sistema...</h1>
+            </div>
+        </div>
+
     </div>
-</div>
-<div class="terminal-prompt">
-    <span class="prompt-symbol">&gt;</span>
-    <span class="cursor"></span>
-</div>
-<footer></footer>
-<audio id="hover-sound" src="{% static 'JOGO/sounds/houver.mp3' %}"></audio>
-<audio id="select-sound" src="{% static 'JOGO/sounds/click.mp3' %}"></audio>
-<script>
-    const initializationLogs = [
-        "[LOG-001] Inicializando sistema...",
-        "[LOG-002] Carregando módulos de segurança...",
-        "[LOG-003] Estabelecendo conexão com o banco de dados...",
-        "[LOG-004] Sistema online. Status: Normal."
-    ];
+    <div class="terminal-prompt">
+        <span class="prompt-symbol">&gt;</span>
+        <span class="cursor"></span>
+    </div>
+    <footer></footer>
+    <audio id="hover-sound" src="{% static 'JOGO/sounds/houver.mp3' %}"></audio>
+    <audio id="select-sound" src="{% static 'JOGO/sounds/click.mp3' %}"></audio>
+    <script>
+        const initializationLogs = [
+            "[LOG-001] Inicializando sistema...",
+            "[LOG-002] Carregando módulos de segurança...",
+            "[LOG-003] Estabelecendo conexão com o banco de dados...",
+            "[LOG-004] Sistema online. Status: Normal."
+        ];
 
-    function showInitializationLogs() {
-        const logsContainer = document.getElementById('logs');
-        initializationLogs.forEach((log, index) => {
+        function showInitializationLogs() {
+            const logsContainer = document.getElementById('logs');
+            initializationLogs.forEach((log, index) => {
+                setTimeout(() => {
+                    const logElement = document.createElement('p');
+                    logElement.textContent = log;
+                    logsContainer.appendChild(logElement);
+                    if (logsContainer.childNodes.length > 5) {
+                        logsContainer.removeChild(logsContainer.firstChild);
+                    }
+                }, index * 1000);
+            });
+        }
+
+        showInitializationLogs();
+
+        const message = "Bem-vindo ao Sistema de Monitoramento SCP - Fundação em Nível Máximo de Segurança.";
+        let index = 0;
+
+        function typeMessage() {
+            if (index < message.length) {
+                document.getElementById('welcome-message').textContent += message[index];
+                index++;
+                setTimeout(typeMessage, 50);
+            }
+        }
+
+        typeMessage();
+
+        const logs = [
+            "[LOG-002] Conexão estabelecida com Banco de Dados SCP.",
+            "[LOG-003] Verificando integridade do sistema...",
+            "[LOG-004] ALERTA: SCP-173 MOVIMENTO DETECTADO.",
+            "[LOG-005] Atualização de Contenção: SCP-███ não localizado.",
+            "[LOG-006] Status: Pronto para Operação."
+        ];
+
+        function updateLogs() {
+            const logsContainer = document.getElementById('logs');
+            const log = document.createElement('p');
+            log.textContent = logs[Math.floor(Math.random() * logs.length)];
+            logsContainer.appendChild(log);
+            if (logsContainer.childNodes.length > 5) {
+                logsContainer.removeChild(logsContainer.firstChild);
+            }
+        }
+
+        setInterval(updateLogs, 3000);
+
+        const menuItems = document.querySelectorAll('.menu-item');
+        let currentIndex = 0;
+
+        function updateActiveItem() {
+            menuItems.forEach(item => item.classList.remove('active'));
+            menuItems[currentIndex].classList.add('active');
+        }
+
+        function selectActiveItem() {
+            const activeItem = menuItems[currentIndex];
+            const link = activeItem.querySelector('a');
+            if (link) {
+                window.location = link.href;
+            }
+        }
+
+        const hoverSound = document.getElementById('hover-sound');
+        const selectSound = document.getElementById('select-sound');
+
+        function playHoverSound() {
+            hoverSound.currentTime = 0;
+            hoverSound.play();
+        }
+
+        function playSelectSound() {
+            selectSound.currentTime = 0;
+            selectSound.play();
+        }
+
+        menuItems.forEach((item, index) => {
+            item.addEventListener('mouseenter', () => {
+                currentIndex = index;
+                updateActiveItem();
+                playHoverSound();
+            });
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowDown') {
+                currentIndex = (currentIndex + 1) % menuItems.length;
+                updateActiveItem();
+                playHoverSound();
+            } else if (event.key === 'ArrowUp') {
+                currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
+                updateActiveItem();
+                playHoverSound();
+            } else if (event.key === 'Enter' || event.key === ' ') {
+                playSelectSound();
+                selectActiveItem();
+            }
+        });
+
+        document.querySelector('a[href="{% url "intro" %}"]').addEventListener('click', function (event) {
+            event.preventDefault(); // Impede o redirecionamento imediato
+            const shutdownAnimation = document.getElementById('shutdown-animation');
+            shutdownAnimation.classList.add('show'); // Mostra a animação
+
             setTimeout(() => {
-                const logElement = document.createElement('p');
-                logElement.textContent = log;
-                logsContainer.appendChild(logElement);
-                if (logsContainer.childNodes.length > 5) {
-                    logsContainer.removeChild(logsContainer.firstChild);
-                }
-            }, index * 1000);
+                window.location.href = "{% url 'intro' %}"; // Redireciona após a animação
+            }, 2000); // Tempo para completar a animação (ajustável)
         });
-    }
 
-    showInitializationLogs();
 
-    const message = "Bem-vindo ao Sistema de Monitoramento SCP - Fundação em Nível Máximo de Segurança.";
-    let index = 0;
+        updateActiveItem();
+    </script>
 
-    function typeMessage() {
-        if (index < message.length) {
-            document.getElementById('welcome-message').textContent += message[index];
-            index++;
-            setTimeout(typeMessage, 50);
-        }
-    }
-
-    typeMessage();
-
-    const logs = [
-        "[LOG-002] Conexão estabelecida com Banco de Dados SCP.",
-        "[LOG-003] Verificando integridade do sistema...",
-        "[LOG-004] ALERTA: SCP-173 MOVIMENTO DETECTADO.",
-        "[LOG-005] Atualização de Contenção: SCP-███ não localizado.",
-        "[LOG-006] Status: Pronto para Operação."
-    ];
-
-    function updateLogs() {
-        const logsContainer = document.getElementById('logs');
-        const log = document.createElement('p');
-        log.textContent = logs[Math.floor(Math.random() * logs.length)];
-        logsContainer.appendChild(log);
-        if (logsContainer.childNodes.length > 5) {
-            logsContainer.removeChild(logsContainer.firstChild);
-        }
-    }
-
-    setInterval(updateLogs, 3000);
-
-    const menuItems = document.querySelectorAll('.menu-item');
-    let currentIndex = 0;
-
-    function updateActiveItem() {
-        menuItems.forEach(item => item.classList.remove('active'));
-        menuItems[currentIndex].classList.add('active');
-    }
-
-    function selectActiveItem() {
-        const activeItem = menuItems[currentIndex];
-        const link = activeItem.querySelector('a');
-        if (link) {
-            window.location = link.href;
-        }
-    }
-
-    const hoverSound = document.getElementById('hover-sound');
-    const selectSound = document.getElementById('select-sound');
-
-    function playHoverSound() {
-        hoverSound.currentTime = 0;
-        hoverSound.play();
-    }
-
-    function playSelectSound() {
-        selectSound.currentTime = 0;
-        selectSound.play();
-    }
-
-    menuItems.forEach((item, index) => {
-        item.addEventListener('mouseenter', () => {
-            currentIndex = index;
-            updateActiveItem();
-            playHoverSound();
-        });
-    });
-
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'ArrowDown') {
-            currentIndex = (currentIndex + 1) % menuItems.length;
-            updateActiveItem();
-            playHoverSound();
-        } else if (event.key === 'ArrowUp') {
-            currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
-            updateActiveItem();
-            playHoverSound();
-        } else if (event.key === 'Enter' || event.key === ' ') {
-            playSelectSound();
-            selectActiveItem();
-        }
-    });
-
-    updateActiveItem();
-</script>
 </body>
+
 </html>

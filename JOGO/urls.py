@@ -13,4 +13,6 @@ urlpatterns = [
     path('JOGO/<str:parte>/', views.JOGO, name='JOGO'),
     path('creditos/', views.creditos, name='creditos'),
     path('splash_screen/', views.splash_screen, name='splash_screen'),
+    path('room/', views.room, name='room'),
+
 ]

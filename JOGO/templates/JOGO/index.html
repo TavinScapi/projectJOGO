@@ -16,14 +16,6 @@
             <div class="monitor">
                 <div class="monitor-inner">
                     <div class="screen-container">
-                        <div class="eyes off">
-                            <div class="left eye">
-                                <div class="shine"></div>
-                            </div>
-                            <div class="right eye">
-                                <div class="shine"></div>
-                            </div>
-                        </div>
                         <div class="screen"></div>
                     </div>
                 </div>
@@ -53,23 +45,35 @@
     <script>
         const powerLed = document.querySelector(".power-led");
         const powerButton = document.querySelector(".power-switch .button");
-        const eyes = document.querySelector(".eyes");
         const screen = document.querySelector(".screen");
 
-        const timers = [];
+        let clickCount = 0;
+        let lastClickTime = 0; // Armazena o tempo do último clique
 
         powerButton.addEventListener("click", () => {
+            const now = Date.now();
+            const timeDifference = now - lastClickTime; // Calcula a diferença de tempo entre cliques
+
+            lastClickTime = now;
+
+            if (timeDifference < 500) { // Tempo em milissegundos para considerar "rápido"
+                clickCount++; // Incrementa o contador de cliques
+            } else {
+                clickCount = 1; // Reseta o contador se o intervalo entre cliques for muito longo
+            }
+
             powerLed.classList.toggle("on");
 
             if (powerLed.classList.contains("on")) {
-                timers.splice(0);
                 screen.classList.remove("off");
                 showStartupSequence(["Ligando...", "Bem-vindo"], "{% url 'splash_screen' %}");
             } else {
-                eyes.classList.add("off");
                 screen.innerHTML = "";
-                timers.forEach(timer => clearTimeout(timer));
-                timers.splice(0);
+            }
+
+            // Verifica se o contador atingiu o número de cliques necessários
+            if (clickCount >= 5) {
+                window.location.href = "{% url 'room' %}"; // Redireciona para uma nova página
             }
         });
 
@@ -83,13 +87,11 @@
                     const timer = setTimeout(() => {
                         screen.innerHTML += text[i];
                     }, wait);
-                    timers.push(timer);
                     wait += 50 + ~~(Math.random() * 50);
                 }
 
                 wait += 750;
                 const timer = setTimeout(() => screen.innerHTML += "<br>", wait);
-                timers.push(timer);
             });
 
             wait += 1000;
@@ -97,7 +99,6 @@
             const timer = setTimeout(() => {
                 window.location.href = redirectUrl; // Redireciona para a nova página
             }, wait);
-            timers.push(timer);
         };
     </script>
 </body>
