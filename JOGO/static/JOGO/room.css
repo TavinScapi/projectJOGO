@@ -2,6 +2,11 @@ img {
     width: 100%;
     position: static;
 }
+wall2 painting img {
+    width: 1220px; /* Ajuste o tamanho conforme necessário */
+    height: 1155px; /* Mantém a proporção da imagem */
+}
+
 
 .pointer {
     cursor: pointer;
@@ -510,8 +515,8 @@ wall3 painting p * {
 
 wall2 painting {
     width: 200rem;
-    height: 126rem;
-    transform: translate3d(-100rem, 0, 148rem) scaleX(-1);
+    height: 190rem;
+    transform: translate3d(-100rem, -20rem, 148rem) scaleX(-1);
 }
 
 wall3 painting {
